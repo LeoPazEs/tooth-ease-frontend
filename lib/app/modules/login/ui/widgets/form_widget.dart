@@ -31,6 +31,9 @@ class LoginFormWidget extends StatelessWidget {
             Padding(
                 padding: paddingFormFields,
                 child: TextFormField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
                     decoration: InputDecoration(
                         labelText: 'Senha',
                         contentPadding: contentPaddingFormFields,
