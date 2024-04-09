@@ -10,9 +10,8 @@ class LoginFormWidget extends StatelessWidget {
     final EdgeInsets paddingFormFields =
         EdgeInsets.all(MediaQuery.of(context).size.height * 0.005);
 
-    final EdgeInsets contentPaddingFormFields = EdgeInsets.symmetric(
-      vertical: MediaQuery.of(context).size.height * 0.002,
-      horizontal: MediaQuery.of(context).size.height * 0.002,
+    final EdgeInsets contentPaddingFormFields = EdgeInsets.only(
+      left: MediaQuery.of(context).size.height * 0.01,
     );
 
     const borderFormFields =
