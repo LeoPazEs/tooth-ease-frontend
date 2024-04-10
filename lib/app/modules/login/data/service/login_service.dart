@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:tooth_ease_frontend/app/modules/login/data/entities/secure_storage_entities.dart';
 import 'package:tooth_ease_frontend/env.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../interactor/states/login_state.dart';
 import '../entities/user_credentials_entities.dart';
