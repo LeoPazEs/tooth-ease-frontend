@@ -1,4 +1,4 @@
-import '../../data/entities/auth_entities.dart';
+import '../../data/entities/error_login_entities.dart';
 
 abstract interface class LoginState {}
 
@@ -7,12 +7,13 @@ class StartLoginState implements LoginState {
 }
 
 class SuccessLoginState implements LoginState {
-  final AuthEntity auth ;
-  const SuccessLoginState({required this.auth});
+  const SuccessLoginState();
 }
 
 class ErrorExceptionLoginState implements LoginState {
-  const ErrorExceptionLoginState();
+  final ErrorLogin error;
+
+  const ErrorExceptionLoginState({required this.error});
 }
 
 class LoadingLoginState implements LoginState {

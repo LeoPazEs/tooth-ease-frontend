@@ -1,5 +1,5 @@
 name: tooth_ease_frontend
-description: "A new Flutter project."
+description: "Tooth Ease Kids"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_secure_storage: ^9.0.0
   flutter:
     sdk: flutter
 
@@ -40,8 +41,10 @@ dependencies:
   flutter_mobx: ^2.2.1+1
 
   dio:
+  fluttertoast: ^8.2.2
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
   build_runner: ^2.1.4
   flutter_test:
     sdk: flutter
@@ -54,6 +57,25 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   mobx_codegen: ^2.6.1
   modular_test: 
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/tooth.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/tooth.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/tooth.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/tooth.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

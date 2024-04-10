@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+import '../../interactor/stores/login_store.dart';
 
-class LoginFormWidget extends StatelessWidget {
-  const LoginFormWidget({super.key});
+class LoginFormWidget extends StatefulWidget {
+  const LoginFormWidget({super.key, required this.store});
+  final LoginStore store;
 
+  @override
+  State<LoginFormWidget> createState() => _LoginFormWidgetState();
+}
+
+class _LoginFormWidgetState extends State<LoginFormWidget> {
   @override
   Widget build(BuildContext context) {
     final EdgeInsets paddingFormFields =
@@ -18,26 +24,38 @@ class LoginFormWidget extends StatelessWidget {
         OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)));
 
     return Form(
-        key: _formKey,
+        key: widget.store.formKey,
         child: Column(
           children: [
             Padding(
                 padding: paddingFormFields,
                 child: TextFormField(
-                    decoration: InputDecoration(
-                        labelText: 'Usuário',
-                        contentPadding: contentPaddingFormFields,
-                        border: borderFormFields))),
+                  decoration: InputDecoration(
+                      labelText: 'Usuário',
+                      contentPadding: contentPaddingFormFields,
+                      border: borderFormFields),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (usuario) => usuario == null || usuario.isEmpty
+                      ? 'Por favor, insira um usuário'
+                      : null,
+                  controller: widget.store.userController,
+                )),
             Padding(
                 padding: paddingFormFields,
                 child: TextFormField(
-                    obscureText: true,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    decoration: InputDecoration(
-                        labelText: 'Senha',
-                        contentPadding: contentPaddingFormFields,
-                        border: borderFormFields))),
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                      labelText: 'Senha',
+                      contentPadding: contentPaddingFormFields,
+                      border: borderFormFields),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (senha) => senha == null || senha.isEmpty
+                      ? 'Por favor, insira uma senha'
+                      : null,
+                  controller: widget.store.senhaController,
+                )),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
@@ -45,7 +63,12 @@ class LoginFormWidget extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
               ),
-              onPressed: () {},
+              onPressed: () {
+                if (widget.store.formKey.currentState!.validate()) {
+                  widget.store.login(widget.store.userController.text,
+                      widget.store.senhaController.text);
+                }
+              },
               child: const Text('Entrar'),
             ),
           ],

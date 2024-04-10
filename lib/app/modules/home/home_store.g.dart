@@ -13,13 +13,13 @@ mixin _$HomeStore on HomeStoreBase, Store {
       Atom(name: 'HomeStoreBase.counter', context: context);
 
   @override
-  int get counter {
+  Map<String, String> get counter {
     _$counterAtom.reportRead();
     return super.counter;
   }
 
   @override
-  set counter(int value) {
+  set counter(Map<String, String> value) {
     _$counterAtom.reportWrite(value, super.counter, () {
       super.counter = value;
     });

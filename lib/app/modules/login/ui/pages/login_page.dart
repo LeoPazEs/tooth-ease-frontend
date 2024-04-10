@@ -18,20 +18,24 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(children: [
-        BackgroundWidget(),
+        const BackgroundWidget(),
         Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Flexible(
                 child: FractionallySizedBox(
-                    heightFactor: 0.35,
+                    heightFactor: 0.4,
                     widthFactor: 0.8,
                     child: LoginFormBoxWidget(
-                      children: [LoginFormWidget()],
+                      children: [
+                        LoginFormWidget(
+                          store: store,
+                        )
+                      ],
                     )))
           ],
         )),
