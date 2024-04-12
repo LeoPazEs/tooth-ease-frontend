@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class LoginFormBoxWidget extends StatelessWidget {
+class FormBoxWidget extends StatelessWidget {
   final List<Widget> children;
 
-  const LoginFormBoxWidget({super.key, required this.children});
+  const FormBoxWidget({
+    super.key,
+    required this.children,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +17,9 @@ class LoginFormBoxWidget extends StatelessWidget {
     ]);
 
     return Container(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.8,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(50),

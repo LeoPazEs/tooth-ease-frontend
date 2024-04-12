@@ -1,18 +1,18 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
+import '../../interactor/stores/register_store.dart';
 import '../widgets/form_widget.dart';
 import '../widgets/form_box_widget.dart';
-import '../../interactor/stores/login_store.dart';
 
-class LoginWidget extends StatefulWidget {
-  final LoginStore store;
-  const LoginWidget({super.key, required this.store});
+class RegisterWidget extends StatefulWidget {
+  final RegisterStore store;
+  const RegisterWidget({super.key, required this.store});
   @override
-  LoginWidgetState createState() => LoginWidgetState();
+  RegisterWidgetState createState() => RegisterWidgetState();
 }
 
-class LoginWidgetState extends State<LoginWidget> {
-  final LoginStore store = Modular.get<LoginStore>();
+class RegisterWidgetState extends State<RegisterWidget> {
+  final RegisterStore store = Modular.get<RegisterStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +22,18 @@ class LoginWidgetState extends State<LoginWidget> {
       children: <Widget>[
         FormBoxWidget(
           children: [
-            LoginFormWidget(
+            RegisterFormWidget(
               store: store,
             ),
             Padding(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.03),
                 child: GestureDetector(
-                    onTap: () => Modular.to.navigate("/register"),
+                    onTap: () => Modular.to.navigate("/"),
                     child: RichText(
                       text: const TextSpan(
                         style: TextStyle(color: Colors.blue),
-                        text: "Crie sua conta!",
+                        text: "Já possui uma conta? Faça login!",
                       ),
                     )))
           ],

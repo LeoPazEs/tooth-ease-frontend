@@ -10,6 +10,6 @@ abstract class HomeStoreBase with Store {
   Map<String, String> counter = {};
 
   Future<void> increment() async {
-    counter = await FlutterSecureStorage().readAll();
+    counter = await const FlutterSecureStorage().readAll();
   }
 }
