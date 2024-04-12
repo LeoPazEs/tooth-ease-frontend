@@ -88,6 +88,11 @@ class RegisterFormWidget extends StatefulWidget {
 }
 
 class _RegisterFormWidgetState extends State<RegisterFormWidget> {
+  String usernameError = "";
+  String firstNameError = "";
+  String lastNameError = "";
+  String passwordError = "";
+
   @override
   Widget build(BuildContext context) {
     final EdgeInsets paddingFormFields =
@@ -112,70 +117,68 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     contentPadding: contentPaddingFormFields,
                     border: borderFormFields,
                     errorMaxLines: 3,
+                    errorText: usernameError.isNotEmpty ? usernameError : null,
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (usuario) {
                     if (usuario == null || usuario.isEmpty) {
                       return 'Por favor, insira um usuário';
                     }
-                    if (widget.store.state is ErrorExceptionRegisterState) {
-                      ErrorRegister error =
-                          (widget.store.state as ErrorExceptionRegisterState)
-                              .error;
-                      if (error.username.isNotEmpty) {
-                        return error.username;
-                      }
-                    }
                     return null;
                   },
                   controller: widget.store.usernameController,
+                  onChanged: (value) {
+                    setState(() {
+                      usernameError = '';
+                    });
+                  },
                 )),
             Padding(
                 padding: paddingFormFields,
                 child: TextFormField(
                   decoration: InputDecoration(
-                      labelText: 'Nome',
-                      contentPadding: contentPaddingFormFields,
-                      border: borderFormFields),
+                    labelText: 'Nome',
+                    contentPadding: contentPaddingFormFields,
+                    border: borderFormFields,
+                    errorText:
+                        firstNameError.isNotEmpty ? firstNameError : null,
+                  ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (nome) {
                     if (nome == null || nome.isEmpty) {
                       return 'Por favor, insira um nome';
                     }
-                    if (widget.store.state is ErrorExceptionRegisterState) {
-                      ErrorRegister error =
-                          (widget.store.state as ErrorExceptionRegisterState)
-                              .error;
-                      if (error.firstName.isNotEmpty) {
-                        return error.firstName;
-                      }
-                    }
                     return null;
                   },
                   controller: widget.store.firstNameController,
+                  onChanged: (value) {
+                    setState(() {
+                      firstNameError = '';
+                    });
+                  },
                 )),
             Padding(
                 padding: paddingFormFields,
                 child: TextFormField(
                   decoration: InputDecoration(
-                      labelText: 'Sobrenome',
-                      contentPadding: contentPaddingFormFields,
-                      border: borderFormFields),
+                    labelText: 'Sobrenome',
+                    contentPadding: contentPaddingFormFields,
+                    border: borderFormFields,
+                    errorText: lastNameError.isNotEmpty ? lastNameError : null,
+                  ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (sobrenome) {
                     if (sobrenome == null || sobrenome.isEmpty) {
                       return 'Por favor, insira um sobrenome';
                     }
-                    if (widget.store.state is ErrorExceptionRegisterState) {
-                      ErrorRegister error =
-                          (widget.store.state as ErrorExceptionRegisterState)
-                              .error;
-                      if (error.lastName.isNotEmpty) {
-                        return error.lastName;
-                      }
-                    }
                     return null;
                   },
+                  onChanged: (value) {
+                    setState(() {
+                      lastNameError = '';
+                    });
+                  },
+                  controller: widget.store.lastNameController,
                 )),
             Padding(
                 padding: paddingFormFields,
@@ -184,23 +187,22 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   enableSuggestions: false,
                   autocorrect: false,
                   decoration: InputDecoration(
-                      labelText: 'Senha',
-                      contentPadding: contentPaddingFormFields,
-                      border: borderFormFields),
+                    labelText: 'Senha',
+                    contentPadding: contentPaddingFormFields,
+                    border: borderFormFields,
+                    errorText: passwordError.isNotEmpty ? passwordError : null,
+                  ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (senha) {
                     if (senha == null || senha.isEmpty) {
                       return 'Por favor, insira uma senha';
                     }
-                    if (widget.store.state is ErrorExceptionRegisterState) {
-                      ErrorRegister error =
-                          (widget.store.state as ErrorExceptionRegisterState)
-                              .error;
-                      if (error.password.isNotEmpty) {
-                        return error.password;
-                      }
-                    }
                     return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      passwordError = '';
+                    });
                   },
                   controller: widget.store.passwordController,
                 )),
@@ -232,14 +234,39 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (widget.store.formKey.currentState!.validate()) {
-                  widget.store.register(
+                  await widget.store.register(
                     widget.store.usernameController.text,
                     widget.store.firstNameController.text,
                     widget.store.lastNameController.text,
                     widget.store.passwordController.text,
                   );
+                  if (widget.store.state is ErrorExceptionRegisterState) {
+                    ErrorRegister error =
+                        (widget.store.state as ErrorExceptionRegisterState)
+                            .error;
+                    if (error.username.isNotEmpty) {
+                      setState(() {
+                        usernameError = error.username;
+                      });
+                    }
+                    if (error.firstName.isNotEmpty) {
+                      setState(() {
+                        firstNameError = error.firstName;
+                      });
+                    }
+                    if (error.lastName.isNotEmpty) {
+                      setState(() {
+                        lastNameError = error.lastName;
+                      });
+                    }
+                    if (error.password.isNotEmpty) {
+                      setState(() {
+                        passwordError = error.password;
+                      });
+                    }
+                  }
                 }
               },
               child: const Text('Criar usuário'),

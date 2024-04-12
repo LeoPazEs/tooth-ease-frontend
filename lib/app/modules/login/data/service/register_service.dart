@@ -23,7 +23,7 @@ class RegisterService implements IRegisterService {
         'first_name': userRegister.firstName,
         'last_name': userRegister.lastName
       });
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return const SuccessRegisterState();
       }
       return ErrorExceptionRegisterState(
