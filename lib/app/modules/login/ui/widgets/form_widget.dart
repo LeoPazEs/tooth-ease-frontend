@@ -238,9 +238,9 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                 if (widget.store.formKey.currentState!.validate()) {
                   await widget.store.register(
                     widget.store.usernameController.text,
+                    widget.store.passwordController.text,
                     widget.store.firstNameController.text,
                     widget.store.lastNameController.text,
-                    widget.store.passwordController.text,
                   );
                   if (widget.store.state is ErrorExceptionRegisterState) {
                     ErrorRegister error =
