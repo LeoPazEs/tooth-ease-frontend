@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
   const BottomNavigationWidget({
@@ -15,7 +16,9 @@ class BottomNavigationWidget extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.home, size: 30),
-              onPressed: () {},
+              onPressed: () {
+                Modular.to.navigate("/kids");
+              },
               color: Colors.black,
             ),
             IconButton(

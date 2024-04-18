@@ -41,9 +41,9 @@ class KidCardWidget extends StatelessWidget {
                           padding: EdgeInsets.only(
                               bottom:
                                   MediaQuery.of(context).size.height * 0.03),
-                          child: const Icon(
-                            Icons.edit,
-                            size: 30,
+                          child: IconButton(
+                            icon: const Icon(Icons.edit, size: 30),
+                            onPressed: () {},
                           )),
                       Text("Idade: ${kid.age.toString()}"),
                     ],
