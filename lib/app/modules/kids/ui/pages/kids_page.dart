@@ -10,7 +10,7 @@ import '../widgets/loading_wiget.dart';
 
 class KidsPage extends StatefulWidget {
   final String title;
-  const KidsPage({Key? key, this.title = 'KidsPage'}) : super(key: key);
+  const KidsPage({Key? key, this.title = 'Crianças'}) : super(key: key);
   @override
   KidsPageState createState() => KidsPageState();
 }
@@ -27,9 +27,18 @@ class KidsPageState extends State<KidsPage> {
           height: 50,
         ),
         appBar: AppBar(
-          title: Text(widget.title),
-          backgroundColor: Colors.white,
-        ),
+            centerTitle: true,
+            title: Text(widget.title),
+            backgroundColor: Colors.white,
+            shadowColor: Colors.grey.withOpacity(0.5),
+            surfaceTintColor: Colors.transparent,
+            elevation: 5.0,
+            actions: const <Widget>[
+              Icon(
+                Icons.add_rounded,
+                size: 50,
+              )
+            ]),
         resizeToAvoidBottomInset: false,
         body: Observer(
           builder: (context) {
