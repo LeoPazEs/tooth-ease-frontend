@@ -1,9 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/interactor/stores/kids_store.dart';
 import 'package:flutter/material.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/ui/widgets/app_bar_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/ui/widgets/bottom_navigation_widget.dart';
+import 'package:tooth_ease_frontend/app/modules/shared/interceptor.dart';
 
 import '../../interactor/states/kids_state.dart';
 import '../widgets/background_widget.dart';
@@ -21,10 +24,16 @@ class KidsPageState extends State<KidsPage> {
   final KidsStore store = Modular.get<KidsStore>();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    store.configure();
     store.getKids();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: const BottomNavigationWidget(),
+        bottomNavigationBar: BottomNavigationWidget(store: store),
         appBar: AppBarWidget(title: widget.title),
         resizeToAvoidBottomInset: false,
         body: Observer(

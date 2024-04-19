@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:tooth_ease_frontend/app/modules/login/data/entities/secure_storage_entities.dart';
 import 'package:tooth_ease_frontend/env.dart';
 
+import '../../../shared/secure_storage_service.dart';
 import '../../interactor/states/login_state.dart';
 import '../entities/user_credentials_entities.dart';
 import '../entities/error_login_entities.dart';
@@ -12,7 +12,7 @@ abstract class ILoginService {
 
 class LoginService implements ILoginService {
   final Dio dio;
-  final ISecureStorage storage;
+  final ISecureStorageService storage;
 
   LoginService({required this.dio, required this.storage});
 

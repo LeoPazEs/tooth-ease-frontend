@@ -24,34 +24,24 @@ mixin _$KidsStore on _KidsStoreBase, Store {
     });
   }
 
-  late final _$kidsAtom = Atom(name: '_KidsStoreBase.kids', context: context);
+  late final _$_KidsStoreBaseActionController =
+      ActionController(name: '_KidsStoreBase', context: context);
 
   @override
-  List<KidEntity> get kids {
-    _$kidsAtom.reportRead();
-    return super.kids;
-  }
-
-  @override
-  set kids(List<KidEntity> value) {
-    _$kidsAtom.reportWrite(value, super.kids, () {
-      super.kids = value;
-    });
-  }
-
-  late final _$getKidsAsyncAction =
-      AsyncAction('_KidsStoreBase.getKids', context: context);
-
-  @override
-  Future<dynamic> getKids() {
-    return _$getKidsAsyncAction.run(() => super.getKids());
+  dynamic emit(KidsState newState) {
+    final _$actionInfo = _$_KidsStoreBaseActionController.startAction(
+        name: '_KidsStoreBase.emit');
+    try {
+      return super.emit(newState);
+    } finally {
+      _$_KidsStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
   String toString() {
     return '''
-state: ${state},
-kids: ${kids}
+state: ${state}
     ''';
   }
 }

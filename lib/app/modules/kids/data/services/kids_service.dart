@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
 import 'package:tooth_ease_frontend/env.dart';
 
 import '../../interactor/states/kids_state.dart';
 import '../entities/kid_entities.dart';
-
-import '../entities/secure_storage_entities.dart';
 
 abstract class IKidsService {
   Future<KidsState> getKids();
@@ -13,7 +11,7 @@ abstract class IKidsService {
 
 class KidsService implements IKidsService {
   final Dio dio;
-  final ISecureStorage storage;
+  final ISecureStorageService storage;
 
   KidsService({required this.dio, required this.storage});
 
