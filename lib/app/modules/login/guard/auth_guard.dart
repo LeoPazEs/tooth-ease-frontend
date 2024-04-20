@@ -11,11 +11,10 @@ class AuthGuard extends RouteGuard {
   @override
   FutureOr<bool> canActivate(String path, ParallelRoute route) async {
     bool isAuthenticated = await tokenAuthService.isValid("refreshToken");
-
     if (isAuthenticated) {
       return true;
     } else {
-      Modular.to.navigate("/login");
+      Modular.to.navigate("/login/");
       return false;
     }
   }

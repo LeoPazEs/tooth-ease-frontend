@@ -6,6 +6,7 @@ abstract interface class ISecureStorageService {
   Future<void> delete(String key);
   Future<void> deleteAll();
   Future<Map<String, String>> readAll();
+  Future<bool> hasToken();
 }
 
 class SecureStorageService implements ISecureStorageService {
@@ -36,5 +37,11 @@ class SecureStorageService implements ISecureStorageService {
   @override
   Future<Map<String, String>> readAll() async {
     return await storage.readAll();
+  }
+
+  @override
+  Future<bool> hasToken() async {
+    String? token = await read("token");
+    return token != null;
   }
 }

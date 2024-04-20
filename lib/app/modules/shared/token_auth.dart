@@ -18,16 +18,14 @@ class TokenAuthService implements ITokenAuthService {
   @override
   Future<bool> isValid(String key) async {
     try {
-      String? token = await storage.read(key);
-      if (token!.isNotEmpty) {
-        var response =
-            await dio.post("${apiUrl}token/verify/", data: {"token": token});
+      if (await storage.hasToken()) {
+        var response = await dio.post("${apiUrl}token/verify/",
+            data: {"token": await storage.read(key)});
         return (response.statusCode == 200);
       } else {
         return false;
       }
     } catch (e) {
-      print("Erro ao verificar a validade do token: $e");
       return false;
     }
   }
@@ -35,10 +33,9 @@ class TokenAuthService implements ITokenAuthService {
   @override
   Future refreshToken() async {
     try {
-      String? token = await storage.read("refreshToken");
-      if (token!.isNotEmpty) {
-        var response =
-            await dio.post("${apiUrl}token/refresh/", data: {"token": token});
+      if (await storage.hasToken()) {
+        var response = await dio.post("${apiUrl}token/refresh/",
+            data: {"refresh": await storage.read("refreshToken")});
         if (response.statusCode == 200) {
           await storage.delete("token");
           await storage.write("token", response.data["access"]);

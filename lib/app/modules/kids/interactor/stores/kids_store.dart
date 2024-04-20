@@ -55,6 +55,6 @@ abstract class _KidsStoreBase with Store {
 
   Future logOut() async {
     await storage.deleteAll();
-    Modular.to.navigate("/");
+    Modular.to.navigate("/login");
   }
 }
