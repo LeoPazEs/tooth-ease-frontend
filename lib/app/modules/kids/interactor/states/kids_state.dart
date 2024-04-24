@@ -6,6 +6,15 @@ class StartKidsState implements KidsState {
   const StartKidsState();
 }
 
+class SuccessResponseKidsState implements KidsState {
+  const SuccessResponseKidsState();
+}
+
+class SuccessGetKidsState implements KidsState {
+  final KidEntity kid;
+  const SuccessGetKidsState({required this.kid});
+}
+
 class SuccessKidsState implements KidsState {
   final List<KidEntity> kids;
   const SuccessKidsState({required this.kids});
