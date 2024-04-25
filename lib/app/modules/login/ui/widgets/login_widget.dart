@@ -26,16 +26,18 @@ class LoginWidgetState extends State<LoginWidget> {
               store: store,
             ),
             Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.03),
-                child: GestureDetector(
-                    onTap: () => Modular.to.navigate("/register"),
-                    child: RichText(
-                      text: const TextSpan(
-                        style: TextStyle(color: Colors.blue),
-                        text: "Crie sua conta!",
-                      ),
-                    )))
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.03),
+              child: GestureDetector(
+                onTap: () => Modular.to.navigate("/register"),
+                child: RichText(
+                  text: const TextSpan(
+                    style: TextStyle(color: Colors.blue),
+                    text: "Crie sua conta!",
+                  ),
+                ),
+              ),
+            )
           ],
         )
       ],

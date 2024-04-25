@@ -29,7 +29,7 @@ abstract class _LoginStoreBase with Store {
     LoginState response = await loginService.login(montarDados(usuario, senha));
 
     if (response is SuccessLoginState) {
-      Modular.to.navigate("/home");
+      Modular.to.navigate("/");
     } else if (response is ErrorExceptionLoginState) {
       ErrorLogin error = response.error;
       Fluttertoast.showToast(

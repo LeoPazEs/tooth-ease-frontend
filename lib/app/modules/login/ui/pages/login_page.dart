@@ -20,20 +20,25 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Observer(
-          builder: (context) {
-            return (store.state is LoadingLoginState)
-                ? Stack(children: [
+      resizeToAvoidBottomInset: false,
+      body: Observer(
+        builder: (context) {
+          return (store.state is LoadingLoginState)
+              ? Stack(
+                  children: [
                     const BackgroundWidget(),
                     LoginWidget(store: store),
                     const Loading()
-                  ])
-                : Stack(children: [
+                  ],
+                )
+              : Stack(
+                  children: [
                     const BackgroundWidget(),
                     LoginWidget(store: store)
-                  ]);
-          },
-        ));
+                  ],
+                );
+        },
+      ),
+    );
   }
 }
