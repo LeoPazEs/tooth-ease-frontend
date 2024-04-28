@@ -11,6 +11,10 @@ class SuccessAppointmentsState implements AppointmentsState {
   const SuccessAppointmentsState({required this.appointments});
 }
 
+class SuccessOtherAppointmentsState implements AppointmentsState {
+  const SuccessOtherAppointmentsState();
+}
+
 class ErrorExceptionAppointmentsState implements AppointmentsState {
   const ErrorExceptionAppointmentsState();
 }

@@ -7,7 +7,8 @@ import '../../interactor/state/appointments_state.dart';
 
 abstract interface class IAppointmentsService {
   Future<AppointmentsState> getAppointmentsAll(int kidId);
-  Future<AppointmentsState> createAppointment(int kidId);
+  Future<AppointmentsState> createAppointment(
+      int kidId, String doutor, String data, String status, int score);
   Future<AppointmentsState> getAppointmentsById(int kidId, int appointmentId);
   Future<AppointmentsState> putAppointmentsAll(int kidId, int appointmentId);
   Future<AppointmentsState> patchAppointments(int kidId, int appointmentId);
@@ -65,8 +66,9 @@ class AppointmentsService implements IAppointmentsService {
   }
 
   @override
-  Future<AppointmentsState> createAppointment(int kidId) {
-    // TODO: implement createAppointment
+  Future<AppointmentsState> createAppointment(
+      int kidId, String doutor, String data, String status, int score) async {
+    // TODO: implement putAppointmentsAll
     throw UnimplementedError();
   }
 }

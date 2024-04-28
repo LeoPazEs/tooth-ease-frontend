@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/entities/appointments_entity.dart';
 
@@ -26,25 +27,49 @@ class AppointmentsCardWidget extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+        child: Column(
           children: [
-            const Icon(
-              Icons.face_6,
-              size: 50,
-            ),
-            Text(appointments.doctor),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.height * 0.03),
-                    child: const Icon(
-                      Icons.edit,
-                      size: 30,
-                    )),
+                Image.asset(
+                  "assets/images/tooth.png",
+                  scale: 15,
+                ),
+                Text(
+                  appointments.doctor,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.03),
+                      child: const Icon(
+                        Icons.edit,
+                        size: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Status: ${appointments.status}"),
+                Text("Nota: ${appointments.score}")
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                    "Data: ${DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.parse(appointments.date))}"),
+                Text("Respirações: ${appointments.diaphragmaticBreathingsMade}")
               ],
             ),
           ],
