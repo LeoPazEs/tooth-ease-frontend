@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tooth_ease_frontend/app/modules/kids/interactor/stores/kids_store.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
+  final KidsStore store;
   const BottomNavigationWidget({
     super.key,
+    required this.store,
   });
 
   @override
@@ -28,7 +31,7 @@ class BottomNavigationWidget extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.logout, size: 30),
-              onPressed: () {},
+              onPressed: () => store.logOut(),
               color: Colors.black,
             ),
           ],

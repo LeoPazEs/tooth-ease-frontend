@@ -21,10 +21,16 @@ class KidsPageState extends State<KidsPage> {
   final KidsStore store = Modular.get<KidsStore>();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    store.configure();
     store.getKids();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: const BottomNavigationWidget(),
+        bottomNavigationBar: BottomNavigationWidget(store: store),
         appBar: AppBarWidget(title: widget.title),
         resizeToAvoidBottomInset: false,
         body: Observer(

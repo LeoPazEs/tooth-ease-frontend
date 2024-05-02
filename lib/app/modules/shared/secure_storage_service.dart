@@ -1,17 +1,18 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-abstract interface class ISecureStorage {
+abstract interface class ISecureStorageService {
   Future<void> write(String key, String value);
   Future<String?> read(String key);
   Future<void> delete(String key);
   Future<void> deleteAll();
   Future<Map<String, String>> readAll();
+  Future<bool> hasToken();
 }
 
-class SecureStorage implements ISecureStorage {
+class SecureStorageService implements ISecureStorageService {
   final FlutterSecureStorage storage;
 
-  SecureStorage(this.storage);
+  SecureStorageService({required this.storage});
 
   @override
   Future<void> write(String key, String value) async {
@@ -36,5 +37,11 @@ class SecureStorage implements ISecureStorage {
   @override
   Future<Map<String, String>> readAll() async {
     return await storage.readAll();
+  }
+
+  @override
+  Future<bool> hasToken() async {
+    String? token = await read("token");
+    return token != null;
   }
 }
