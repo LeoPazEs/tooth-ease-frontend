@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
 import 'package:tooth_ease_frontend/env.dart';
 

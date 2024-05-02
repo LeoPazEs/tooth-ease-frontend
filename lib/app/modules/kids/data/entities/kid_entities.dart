@@ -1,13 +1,25 @@
-class KidEntity {
-  final int id;
+abstract class KidEntity {
   final String name;
   final DateTime birthDate;
-  final int age;
 
   KidEntity({
-    required this.id,
     required this.name,
     required this.birthDate,
-    required this.age,
   });
+}
+
+class CompleteKidEntity extends KidEntity {
+  final int id;
+  final int age;
+
+  CompleteKidEntity({
+    required this.id,
+    required this.age,
+    required super.name,
+    required super.birthDate,
+  });
+}
+
+class CreateKidEntity extends KidEntity {
+  CreateKidEntity({required super.name, required super.birthDate});
 }

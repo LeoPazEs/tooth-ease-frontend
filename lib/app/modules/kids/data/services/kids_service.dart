@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/data/adapters/kid_adapter.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
 import 'package:tooth_ease_frontend/env.dart';
@@ -8,7 +9,7 @@ import '../entities/kid_entities.dart';
 
 abstract class IKidsService {
   Future<KidsState> getKids();
-  Future<KidsState> createKid(KidEntity kidEntity);
+  Future<KidsState> createKid(CreateKidEntity kidEntity);
   Future<KidsState> getKidById(int id);
   Future<KidsState> putKidAll(int id, KidEntity kidEntity);
   Future<KidsState> putKid(int id, KidEntity kidEntity);
@@ -27,9 +28,10 @@ class KidsService implements IKidsService {
     try {
       final response = await dio.get(url);
       if (response.statusCode == 200) {
-        List<KidEntity> kids = (response.data as List)
+        List<CompleteKidEntity> kids = (response.data as List)
             .map((kid) => KidAdapter.fromJson(kid))
             .toList();
+
         return SuccessKidsState(kids: kids);
       }
       return const ErrorExceptionKidsState();
@@ -44,7 +46,7 @@ class KidsService implements IKidsService {
   }
 
   @override
-  Future<KidsState> createKid(KidEntity kidEntity) async {
+  Future<KidsState> createKid(CreateKidEntity kidEntity) async {
     try {
       var response = await dio.post(url, data: KidAdapter.toJson(kidEntity));
       if (response.statusCode == 200) {

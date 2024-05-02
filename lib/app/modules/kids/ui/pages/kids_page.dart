@@ -12,7 +12,7 @@ import '../widgets/loading_wiget.dart';
 
 class KidsPage extends StatefulWidget {
   final String title;
-  const KidsPage({Key? key, this.title = 'Crianças'}) : super(key: key);
+  const KidsPage({super.key, this.title = 'Crianças'});
   @override
   KidsPageState createState() => KidsPageState();
 }

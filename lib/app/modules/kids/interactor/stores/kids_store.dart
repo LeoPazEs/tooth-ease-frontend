@@ -21,10 +21,13 @@ abstract class _KidsStoreBase with Store {
   @observable
   KidsState state = const StartKidsState();
 
-  List<KidEntity> kids = [];
+  List<CompleteKidEntity> kids = [];
 
   _KidsStoreBase({required this.storage, required this.kidsService});
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController birthDateController = TextEditingController();
   @action
   emit(KidsState newState) => state = newState;
 
@@ -36,6 +39,36 @@ abstract class _KidsStoreBase with Store {
     } else if (response is ErrorExceptionKidsState) {
       Fluttertoast.showToast(
           msg: "Erro ao buscar os dados",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+    emit(response);
+  }
+
+  Future createKid(String name, String birthDate) async {
+    emit(const LoadingKidsState());
+    final kid = CreateKidEntity(
+      name: nameController.text,
+      birthDate: DateTime.parse(birthDateController.text),
+    );
+    KidsState response = await kidsService.createKid(kid);
+    if (response is SuccessResponseKidsState) {
+      getKids();
+      Fluttertoast.showToast(
+          msg: "Criança cadastrada com sucesso",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else if (response is ErrorExceptionKidsState) {
+      Fluttertoast.showToast(
+          msg: "Erro ao cadastrar a criança",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,

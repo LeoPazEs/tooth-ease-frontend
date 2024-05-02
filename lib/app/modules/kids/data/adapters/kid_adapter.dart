@@ -3,7 +3,7 @@ import 'package:tooth_ease_frontend/app/modules/kids/data/entities/kid_entities.
 class KidAdapter {
   KidAdapter._();
 
-  static KidEntity fromJson(dynamic json) => KidEntity(
+  static CompleteKidEntity fromJson(dynamic json) => CompleteKidEntity(
         id: json["id"],
         name: json["name"],
         birthDate: DateTime.parse(json["birth_date"]),

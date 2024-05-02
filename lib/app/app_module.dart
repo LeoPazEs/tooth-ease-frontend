@@ -41,7 +41,7 @@ class AppModule extends Module {
     ModuleRoute(Modular.initialRoute, module: KidsModule(), guards: [
       AuthGuard(
         tokenAuthService: TokenAuthService(
-          storage: SecureStorageService(storage: FlutterSecureStorage()),
+          storage: SecureStorageService(storage: const FlutterSecureStorage()),
         ),
       )
     ]),
