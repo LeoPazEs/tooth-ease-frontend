@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
-import 'package:tooth_ease_frontend/env.dart';
+import 'package:tooth_ease_frontend/app/modules/shared/env.dart';
 
 import '../../interactor/states/kids_state.dart';
 import '../entities/kid_entities.dart';

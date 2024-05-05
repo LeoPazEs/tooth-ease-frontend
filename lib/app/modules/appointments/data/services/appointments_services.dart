@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/data/adapters/Appointments_adapters.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/data/entities/appointments_entity.dart';
 
-import '../../../../../env.dart';
+import '../../../shared/env.dart';
 import '../../interactor/state/appointments_state.dart';
 
 abstract interface class IAppointmentsService {

@@ -10,6 +10,7 @@ import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/error_wi
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/loading_wiget.dart';
 
 import '../widgets/list_appointments_widget.dart';
+import '../widgets/modal_widget.dart';
 
 class AppointmentsPage extends StatefulWidget {
   final String title;
@@ -36,9 +37,8 @@ class AppointmentsPageState extends State<AppointmentsPage> {
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.add_rounded, size: 50),
-            onPressed: () => store.exibirModal(context),
-          )
+              icon: const Icon(Icons.add_rounded, size: 50),
+              onPressed: () => ConsultaModal(store: store).exibirModal(context))
         ],
       ),
       body: Observer(

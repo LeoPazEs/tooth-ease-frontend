@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/data/entities/appointments_entity.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/data/services/appointments_services.dart';
@@ -23,6 +22,43 @@ abstract class _AppointmentsStoreBase with Store {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController dataController = TextEditingController();
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @observable
+  DateTime selectedDate = DateTime.now();
+
+  @observable
+  TimeOfDay selectedTime = TimeOfDay.now();
+
+  @action
+  Future<void> selectDateAndTime(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+      );
+
+      if (pickedTime != null) {
+        selectedDate = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+        dataController.text =
+            DateFormat('dd/MM/yyyy HH:mm').format(selectedDate);
+      }
+    }
+  }
+
   @action
   emit(AppointmentsState newState) => state = newState;
 
@@ -40,11 +76,15 @@ abstract class _AppointmentsStoreBase with Store {
     emit(response);
   }
 
-  Future postApointment(
-      String doutor, String data, String status, int score) async {
+  Future postApointment() async {
     emit(const LoadingAppointmentsState());
     AppointmentsState response = await appointmentsService.createAppointment(
-        id, doutor, data, status, score);
+      id,
+      nomeController.text.toString(),
+      dataController.text.toString(),
+      "Pending",
+      0,
+    );
     if (response is SuccessOtherAppointmentsState) {
       getAppointmentsAll();
     } else if (response is ErrorExceptionAppointmentsState) {
@@ -57,42 +97,7 @@ abstract class _AppointmentsStoreBase with Store {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+      emit(response);
     }
   }
-
-  exibirModal(context) => showDialog(
-        context: context,
-        builder: (Context) {
-          return AlertDialog(
-            title: const Text("Adicionar anotação"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextFormField(
-                  controller: nomeController,
-                  autofocus: true,
-                  decoration: const InputDecoration(
-                      labelText: "Doutor", hintText: "Digite o nome..."),
-                ),
-                TextFormField(
-                  controller: dataController,
-                  decoration: const InputDecoration(
-                      labelText: "Data da consulta",
-                      hintText: "Digite a data..."),
-                )
-              ],
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Cancelar")),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("Salvar"))
-            ],
-          );
-        },
-      );
 }
