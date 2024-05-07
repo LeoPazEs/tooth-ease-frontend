@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/data/entities/error_entities.dart';
+import 'package:tooth_ease_frontend/app/modules/shared/mask.dart';
 
 import '../../interactor/states/kids_state.dart';
 import '../../interactor/stores/kids_store.dart';
@@ -40,7 +42,8 @@ class _AddKidFormWidgetState extends State<AddKidFormWidget> {
                     labelText: 'Nome',
                     contentPadding: contentPaddingFormFields,
                     border: borderFormFields,
-                    errorText: nameError.isNotEmpty ? birthDateError : null,
+                    errorText: nameError.isNotEmpty ? nameError : null,
+                    errorMaxLines: 3,
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (nome) {
@@ -57,34 +60,37 @@ class _AddKidFormWidgetState extends State<AddKidFormWidget> {
                   },
                 )),
             Padding(
-                padding: paddingFormFields,
-                child: TextFormField(
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                      labelText: 'Data de nascimento',
-                      contentPadding: contentPaddingFormFields,
-                      border: borderFormFields),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (birthDate) {
-                    if (birthDate == null || birthDate.isEmpty) {
-                      return 'Por favor, adicione uma data';
-                    }
-                    return null;
-                  },
+              padding: paddingFormFields,
+              child: Observer(
+                builder: (_) => TextFormField(
+                  inputFormatters: [Mask().maskData],
+                  readOnly: true,
                   onTap: () async {
-                    DateTime? selectedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
-                    );
-                    if (selectedDate != null) {
-                      widget.store.birthDateController.text =
-                          selectedDate.toString();
-                    }
+                    await widget.store.selectDate(context);
                   },
-                )),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: "Data de nascimento",
+                    hintText: "Clique para selecionar...",
+                    errorText:
+                        birthDateError.isNotEmpty ? birthDateError : null,
+                    errorMaxLines: 3,
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.calendar_today),
+                      onPressed: () async {
+                        await widget.store.selectDate(context);
+                      },
+                    ),
+                  ),
+                  controller: widget.store.dataController,
+                ),
+              ),
+            ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
@@ -96,7 +102,7 @@ class _AddKidFormWidgetState extends State<AddKidFormWidget> {
                 if (widget.store.formKey.currentState!.validate()) {
                   await widget.store.createKid(
                     widget.store.nameController.text,
-                    widget.store.birthDateController.text,
+                    widget.store.dataController.text,
                   );
                   if (widget.store.state is ErrorCreateKidState) {
                     ErrorCreateKidEntity error =
@@ -111,6 +117,11 @@ class _AddKidFormWidgetState extends State<AddKidFormWidget> {
                         birthDateError = error.birthDate;
                       });
                     }
+                  } else {
+                    if (!mounted) {
+                      return;
+                    }
+                    Navigator.pop(context);
                   }
                 }
               },

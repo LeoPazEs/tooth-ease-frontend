@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/data/adapters/kid_adapter.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/env.dart';
 
 import '../../interactor/states/kids_state.dart';
+import '../entities/error_entities.dart';
 import '../entities/kid_entities.dart';
 
 abstract class IKidsService {
@@ -49,12 +49,22 @@ class KidsService implements IKidsService {
   Future<KidsState> createKid(CreateKidEntity kidEntity) async {
     try {
       var response = await dio.post(url, data: KidAdapter.toJson(kidEntity));
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return const SuccessResponseKidsState();
       } else {
         return const ErrorExceptionKidsState();
       }
     } catch (e) {
+      if (e is DioError) {
+        if (e.response!.statusCode == 400) {
+          ErrorCreateKidEntity error = ErrorCreateKidEntity(
+            detail: e.response!.data["detail"],
+            name: e.response!.data["name"],
+            birthDate: e.response!.data["birth_date"],
+          );
+          return ErrorCreateKidState(error: error);
+        }
+      }
       return const ErrorExceptionKidsState();
     }
   }

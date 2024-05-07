@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:tooth_ease_frontend/app/modules/kids/data/entities/error_entities.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/interceptor.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
 
@@ -27,9 +29,32 @@ abstract class _KidsStoreBase with Store {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
-  TextEditingController birthDateController = TextEditingController();
+  final TextEditingController dataController = TextEditingController();
+
   @action
   emit(KidsState newState) => state = newState;
+
+  @observable
+  DateTime selectedDate = DateTime.now();
+
+  @action
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: selectedDate,
+    );
+
+    if (pickedDate != null) {
+      selectedDate = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+      );
+      dataController.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+    }
+  }
 
   Future getKids() async {
     emit(const LoadingKidsState());
@@ -51,9 +76,10 @@ abstract class _KidsStoreBase with Store {
 
   Future createKid(String name, String birthDate) async {
     emit(const LoadingKidsState());
+    DateFormat inputFormat = DateFormat('dd/MM/yyyy');
     final kid = CreateKidEntity(
       name: nameController.text,
-      birthDate: DateTime.parse(birthDateController.text),
+      birthDate: inputFormat.parse(dataController.text),
     );
     KidsState response = await kidsService.createKid(kid);
     if (response is SuccessResponseKidsState) {
@@ -75,6 +101,19 @@ abstract class _KidsStoreBase with Store {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+    } else if (response is ErrorCreateKidState) {
+      ErrorCreateKidEntity error = response.error;
+      debugPrint(error.birthDate);
+      if (error.detail.isNotEmpty) {
+        Fluttertoast.showToast(
+            msg: error.detail,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
     }
     emit(response);
   }

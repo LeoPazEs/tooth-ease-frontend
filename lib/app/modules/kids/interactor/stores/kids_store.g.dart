@@ -24,6 +24,30 @@ mixin _$KidsStore on _KidsStoreBase, Store {
     });
   }
 
+  late final _$selectedDateAtom =
+      Atom(name: '_KidsStoreBase.selectedDate', context: context);
+
+  @override
+  DateTime get selectedDate {
+    _$selectedDateAtom.reportRead();
+    return super.selectedDate;
+  }
+
+  @override
+  set selectedDate(DateTime value) {
+    _$selectedDateAtom.reportWrite(value, super.selectedDate, () {
+      super.selectedDate = value;
+    });
+  }
+
+  late final _$selectDateAsyncAction =
+      AsyncAction('_KidsStoreBase.selectDate', context: context);
+
+  @override
+  Future<void> selectDate(BuildContext context) {
+    return _$selectDateAsyncAction.run(() => super.selectDate(context));
+  }
+
   late final _$_KidsStoreBaseActionController =
       ActionController(name: '_KidsStoreBase', context: context);
 
@@ -41,7 +65,8 @@ mixin _$KidsStore on _KidsStoreBase, Store {
   @override
   String toString() {
     return '''
-state: ${state}
+state: ${state},
+selectedDate: ${selectedDate}
     ''';
   }
 }
