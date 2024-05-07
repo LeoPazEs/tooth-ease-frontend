@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/data/services/kids_service.dart';
-import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/ui/pages/kids_page.dart';
+import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/interactor/stores/kids_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
