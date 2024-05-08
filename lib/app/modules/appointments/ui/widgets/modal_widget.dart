@@ -20,6 +20,7 @@ class ConsultaModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.white,
       title: const Text("Adicionar anotação"),
       content: Form(
         key: store.formKey,
@@ -32,7 +33,7 @@ class ConsultaModal extends StatelessWidget {
                 contentPadding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.height * 0.01,
                 ),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -58,7 +59,7 @@ class ConsultaModal extends StatelessWidget {
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  labelText: "Data e Hora da consulta",
+                  labelText: "Data da consulta",
                   hintText: "Clique para selecionar...",
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.calendar_today),
@@ -74,16 +75,30 @@ class ConsultaModal extends StatelessWidget {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text("Cancelar"),
-        ),
-        TextButton(
+        ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 128, 220, 243),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+            child: const Text(
+              "Cancelar",
+              style: TextStyle(color: Colors.black),
+            )),
+        ElevatedButton(
           onPressed: () {
             store.postApointment();
             Navigator.pop(context);
           },
-          child: const Text("Salvar"),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 128, 220, 243),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          child: const Text("Salvar", style: TextStyle(color: Colors.black)),
         ),
       ],
     );

@@ -8,7 +8,7 @@ import '../../interactor/state/appointments_state.dart';
 abstract interface class IAppointmentsService {
   Future<AppointmentsState> getAppointmentsAll(int kidId);
   Future<AppointmentsState> createAppointment(
-      int kidId, String doutor, String data, String status, int score);
+      int kidId, String doutor, String dataConsulta);
   Future<AppointmentsState> getAppointmentsById(int kidId, int appointmentId);
   Future<AppointmentsState> putAppointmentsAll(int kidId, int appointmentId);
   Future<AppointmentsState> patchAppointments(int kidId, int appointmentId);
@@ -67,8 +67,32 @@ class AppointmentsService implements IAppointmentsService {
 
   @override
   Future<AppointmentsState> createAppointment(
-      int kidId, String doutor, String data, String status, int score) async {
-    // TODO: implement putAppointmentsAll
-    throw UnimplementedError();
+      int kidId, String doutor, String dataConsulta) async {
+    try {
+      final response = await dio.post(
+        "$apiUrl/accounts/me/kids/${kidId.toString()}/appointments/",
+        data: {
+          "doctor": doutor.toString(),
+          "date": dataConsulta.toString(),
+          "status": "pending",
+          "score": 0
+        },
+      );
+      return (response.statusCode == 201)
+          ? const SuccessOtherAppointmentsState()
+          : const CreateErrorExceptionAppointmentsState(
+              error: "Erro ao cadastrar consulta!");
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response!.statusCode == 400) {
+          return CreateErrorExceptionAppointmentsState(
+              error: e.response!.data["date"][0]);
+        }
+        return const CreateErrorExceptionAppointmentsState(
+            error: "Erro ao cadastrar consulta!");
+      }
+      return const CreateErrorExceptionAppointmentsState(
+          error: "Erro ao cadastrar consulta!");
+    }
   }
 }

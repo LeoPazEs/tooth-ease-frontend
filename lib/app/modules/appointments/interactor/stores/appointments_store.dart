@@ -30,13 +30,15 @@ abstract class _AppointmentsStoreBase with Store {
   @observable
   TimeOfDay selectedTime = TimeOfDay.now();
 
+  DateTime? finalDate;
+
   @action
   Future<void> selectDateAndTime(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2101),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 10),
     );
 
     if (pickedDate != null) {
@@ -53,6 +55,7 @@ abstract class _AppointmentsStoreBase with Store {
           pickedTime.hour,
           pickedTime.minute,
         );
+        finalDate = selectedDate;
         dataController.text =
             DateFormat('dd/MM/yyyy HH:mm').format(selectedDate);
       }
@@ -81,15 +84,13 @@ abstract class _AppointmentsStoreBase with Store {
     AppointmentsState response = await appointmentsService.createAppointment(
       id,
       nomeController.text.toString(),
-      dataController.text.toString(),
-      "Pending",
-      0,
+      finalDate.toString(),
     );
     if (response is SuccessOtherAppointmentsState) {
       getAppointmentsAll();
-    } else if (response is ErrorExceptionAppointmentsState) {
+    } else if (response is CreateErrorExceptionAppointmentsState) {
       Fluttertoast.showToast(
-        msg: "Erro ao adicionar consulta",
+        msg: response.error,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
@@ -97,7 +98,7 @@ abstract class _AppointmentsStoreBase with Store {
         textColor: Colors.white,
         fontSize: 16.0,
       );
-      emit(response);
+      getAppointmentsAll();
     }
   }
 }
