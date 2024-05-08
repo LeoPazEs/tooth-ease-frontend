@@ -9,7 +9,7 @@ import '../entities/kid_entities.dart';
 
 abstract class IKidsService {
   Future<KidsState> getKids();
-  Future<KidsState> createKid(CreateKidEntity kidEntity);
+  Future<KidsState> postKid(CreateKidEntity kidEntity);
   Future<KidsState> getKidById(int id);
   Future<KidsState> putKidAll(int id, KidEntity kidEntity);
   Future<KidsState> putKid(int id, KidEntity kidEntity);
@@ -46,7 +46,7 @@ class KidsService implements IKidsService {
   }
 
   @override
-  Future<KidsState> createKid(CreateKidEntity kidEntity) async {
+  Future<KidsState> postKid(CreateKidEntity kidEntity) async {
     try {
       var response = await dio.post(url, data: KidAdapter.toJson(kidEntity));
       if (response.statusCode == 201) {
@@ -73,7 +73,7 @@ class KidsService implements IKidsService {
   Future<KidsState> deleteKid(int id) async {
     try {
       var response = await dio.delete("$url/$id/");
-      if (response.statusCode == 200) {
+      if (response.statusCode == 204) {
         return const SuccessResponseKidsState();
       } else {
         return const ErrorExceptionKidsState();
@@ -101,13 +101,24 @@ class KidsService implements IKidsService {
   @override
   Future<KidsState> putKid(int id, KidEntity kidEntity) async {
     try {
-      var response = await dio.post(url, data: KidAdapter.toJson(kidEntity));
+      var response =
+          await dio.put("$url/$id/", data: KidAdapter.toJson(kidEntity));
       if (response.statusCode == 200) {
         return const SuccessResponseKidsState();
       } else {
         return const ErrorExceptionKidsState();
       }
     } catch (e) {
+      if (e is DioError) {
+        if (e.response!.statusCode == 400) {
+          ErrorCreateKidEntity error = ErrorCreateKidEntity(
+            detail: e.response!.data["detail"],
+            name: e.response!.data["name"],
+            birthDate: e.response!.data["birth_date"],
+          );
+          return ErrorCreateKidState(error: error);
+        }
+      }
       return const ErrorExceptionKidsState();
     }
   }

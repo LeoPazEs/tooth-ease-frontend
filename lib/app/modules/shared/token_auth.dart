@@ -43,7 +43,7 @@ class TokenAuthService implements ITokenAuthService {
         }
       }
     } catch (e) {
-      print("Erro ao atualizar o token: $e");
+      debugPrint("Erro ao atualizar o token: $e");
     }
   }
 }

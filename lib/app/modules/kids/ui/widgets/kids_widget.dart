@@ -25,6 +25,7 @@ class KidsWidgetState extends State<KidsWidget> {
             .pushNamed("/appointments/", arguments: store.kids[index].id),
         child: KidCardWidget(
           kid: store.kids[index],
+          store: store,
         ),
       ),
     );

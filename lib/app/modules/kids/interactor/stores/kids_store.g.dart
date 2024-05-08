@@ -44,8 +44,10 @@ mixin _$KidsStore on _KidsStoreBase, Store {
       AsyncAction('_KidsStoreBase.selectDate', context: context);
 
   @override
-  Future<void> selectDate(BuildContext context) {
-    return _$selectDateAsyncAction.run(() => super.selectDate(context));
+  Future<void> selectDate(
+      BuildContext context, TextEditingController dataController) {
+    return _$selectDateAsyncAction
+        .run(() => super.selectDate(context, dataController));
   }
 
   late final _$_KidsStoreBaseActionController =

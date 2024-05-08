@@ -31,6 +31,10 @@ abstract class _KidsStoreBase with Store {
   TextEditingController nameController = TextEditingController();
   final TextEditingController dataController = TextEditingController();
 
+  final GlobalKey<FormState> editFormKey = GlobalKey<FormState>();
+  TextEditingController editNameController = TextEditingController();
+  final TextEditingController editDataController = TextEditingController();
+
   @action
   emit(KidsState newState) => state = newState;
 
@@ -38,12 +42,13 @@ abstract class _KidsStoreBase with Store {
   DateTime selectedDate = DateTime.now();
 
   @action
-  Future<void> selectDate(BuildContext context) async {
+  Future<void> selectDate(
+      BuildContext context, TextEditingController dataController) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(1900),
-      lastDate: selectedDate,
+      lastDate: DateTime.now(),
     );
 
     if (pickedDate != null) {
@@ -81,7 +86,7 @@ abstract class _KidsStoreBase with Store {
       name: nameController.text,
       birthDate: inputFormat.parse(dataController.text),
     );
-    KidsState response = await kidsService.createKid(kid);
+    KidsState response = await kidsService.postKid(kid);
     if (response is SuccessResponseKidsState) {
       getKids();
       Fluttertoast.showToast(
@@ -114,6 +119,76 @@ abstract class _KidsStoreBase with Store {
             textColor: Colors.white,
             fontSize: 16.0);
       }
+    }
+    emit(response);
+  }
+
+  Future editKid(int id) async {
+    emit(const LoadingKidsState());
+    DateFormat inputFormat = DateFormat('dd/MM/yyyy');
+    final kid = CreateKidEntity(
+      name: editNameController.text,
+      birthDate: inputFormat.parse(editDataController.text),
+    );
+    KidsState response = await kidsService.putKid(id, kid);
+    if (response is SuccessResponseKidsState) {
+      getKids();
+      Fluttertoast.showToast(
+          msg: "Criança editada com sucesso",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else if (response is ErrorExceptionKidsState) {
+      Fluttertoast.showToast(
+          msg: "Erro ao editar a criança",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else if (response is ErrorCreateKidState) {
+      ErrorCreateKidEntity error = response.error;
+      debugPrint(error.birthDate);
+      if (error.detail.isNotEmpty) {
+        Fluttertoast.showToast(
+            msg: error.detail,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    }
+    emit(response);
+  }
+
+  Future deleteKid(int id) async {
+    emit(const LoadingKidsState());
+    KidsState response = await kidsService.deleteKid(id);
+    if (response is SuccessResponseKidsState) {
+      getKids();
+      Fluttertoast.showToast(
+          msg: "Criança excluida com sucesso",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else if (response is ErrorExceptionKidsState) {
+      Fluttertoast.showToast(
+          msg: "Erro ao deletar criança",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
     emit(response);
   }

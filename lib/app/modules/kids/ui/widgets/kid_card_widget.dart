@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:tooth_ease_frontend/app/modules/kids/data/entities/kid_entities.dart';
+import 'package:tooth_ease_frontend/app/modules/kids/interactor/stores/kids_store.dart';
+
+import 'form_widget.dart';
 
 class KidCardWidget extends StatelessWidget {
   final CompleteKidEntity kid;
+  final KidsStore store;
 
   const KidCardWidget({
     super.key,
     required this.kid,
+    required this.store,
   });
 
   @override
@@ -51,7 +56,21 @@ class KidCardWidget extends StatelessWidget {
                                       0.03),
                               child: IconButton(
                                 icon: const Icon(Icons.edit, size: 30),
-                                onPressed: () {},
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        surfaceTintColor: Colors.transparent,
+                                        backgroundColor: Colors.white,
+                                        title:
+                                            const Icon(Icons.face_6, size: 50),
+                                        content: EditKidFormWidget(
+                                            store: store, kid: kid),
+                                      );
+                                    },
+                                  );
+                                },
                               )),
                           Text("Idade: ${kid.age.toString()}"),
                         ],
