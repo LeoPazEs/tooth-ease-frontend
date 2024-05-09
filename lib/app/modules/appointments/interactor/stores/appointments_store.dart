@@ -21,7 +21,6 @@ abstract class _AppointmentsStoreBase with Store {
 
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController dataController = TextEditingController();
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @observable
@@ -30,7 +29,19 @@ abstract class _AppointmentsStoreBase with Store {
   @observable
   TimeOfDay selectedTime = TimeOfDay.now();
 
-  DateTime? finalDate;
+  @observable
+  String? selectedStatus;
+
+  @observable
+  int? selectedScore;
+
+  String? finalDate;
+
+  @action
+  void setSelectedScore(int value) => selectedScore = value;
+
+  @action
+  void setSelectedStatus(String value) => selectedStatus = value;
 
   @action
   Future<void> selectDateAndTime(BuildContext context) async {
@@ -43,8 +54,8 @@ abstract class _AppointmentsStoreBase with Store {
 
     if (pickedDate != null) {
       final TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
         initialTime: selectedTime,
+        context: context,
       );
 
       if (pickedTime != null) {
@@ -55,11 +66,27 @@ abstract class _AppointmentsStoreBase with Store {
           pickedTime.hour,
           pickedTime.minute,
         );
-        finalDate = selectedDate;
+        finalDate = selectedDate.toString();
         dataController.text =
             DateFormat('dd/MM/yyyy HH:mm').format(selectedDate);
       }
     }
+  }
+
+  void clearController() {
+    nomeController.clear();
+    dataController.clear();
+    selectedScore = null;
+    selectedStatus = null;
+  }
+
+  void preencherForm(AppointmentsEntity appointmentsEntity) {
+    nomeController.text = appointmentsEntity.doctor;
+    finalDate = appointmentsEntity.date;
+    dataController.text =
+        DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(finalDate!));
+    selectedScore = appointmentsEntity.score;
+    selectedStatus = appointmentsEntity.status;
   }
 
   @action
@@ -73,9 +100,8 @@ abstract class _AppointmentsStoreBase with Store {
     emit(const LoadingAppointmentsState());
     AppointmentsState response =
         await appointmentsService.getAppointmentsAll(id);
-    (response is SuccessAppointmentsState)
-        ? appointments = response.appointments
-        : appointments = [];
+    appointments =
+        response is SuccessAppointmentsState ? response.appointments : [];
     emit(response);
   }
 
@@ -83,14 +109,38 @@ abstract class _AppointmentsStoreBase with Store {
     emit(const LoadingAppointmentsState());
     AppointmentsState response = await appointmentsService.createAppointment(
       id,
-      nomeController.text.toString(),
-      finalDate.toString(),
+      nomeController.text,
+      selectedDate.toString(),
     );
+    handleResponse(response);
+  }
+
+  Future putApointment(int appointmentId) async {
+    emit(const LoadingAppointmentsState());
+    AppointmentsState response = await appointmentsService.putAppointmentsAll(
+      id,
+      appointmentId,
+      nomeController.text,
+      finalDate!,
+      selectedStatus!,
+      selectedScore!,
+    );
+    handleResponse(response);
+  }
+
+  Future deleteApointment(int appointmentId) async {
+    emit(const LoadingAppointmentsState());
+    AppointmentsState response =
+        await appointmentsService.deleteAppointments(id, appointmentId);
+    handleResponse(response);
+  }
+
+  void handleResponse(AppointmentsState response) {
     if (response is SuccessOtherAppointmentsState) {
       getAppointmentsAll();
-    } else if (response is CreateErrorExceptionAppointmentsState) {
+    } else if (response is OtherErrorExceptionAppointmentsState) {
       Fluttertoast.showToast(
-        msg: response.error,
+        msg: response.error["non_field_errors"][0].toString(),
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,

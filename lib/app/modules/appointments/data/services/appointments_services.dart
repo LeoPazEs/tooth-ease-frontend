@@ -10,7 +10,8 @@ abstract interface class IAppointmentsService {
   Future<AppointmentsState> createAppointment(
       int kidId, String doutor, String dataConsulta);
   Future<AppointmentsState> getAppointmentsById(int kidId, int appointmentId);
-  Future<AppointmentsState> putAppointmentsAll(int kidId, int appointmentId);
+  Future<AppointmentsState> putAppointmentsAll(int kidId, int appointmentId,
+      String doutor, String dataConsulta, String status, int score);
   Future<AppointmentsState> patchAppointments(int kidId, int appointmentId);
   Future<AppointmentsState> deleteAppointments(int kidId, int appointmentId);
 }
@@ -42,9 +43,21 @@ class AppointmentsService implements IAppointmentsService {
   }
 
   @override
-  Future<AppointmentsState> deleteAppointments(int kidId, int appointmentId) {
-    // TODO: implement deleteAppointments
-    throw UnimplementedError();
+  Future<AppointmentsState> deleteAppointments(
+      int kidId, int appointmentId) async {
+    try {
+      final response =
+          await dio.delete("$apiUrl/accounts/me/kids/$kidId/appointments/");
+      if (response.statusCode == 204) {
+        return const SuccessOtherAppointmentsState();
+      } else {
+        return const OtherErrorExceptionAppointmentsState(
+            error: "Não foi possivel deletar consulta!");
+      }
+    } catch (e) {
+      return const OtherErrorExceptionAppointmentsState(
+          error: "Não foi possivel deletar consulta!");
+    }
   }
 
   @override
@@ -60,9 +73,34 @@ class AppointmentsService implements IAppointmentsService {
   }
 
   @override
-  Future<AppointmentsState> putAppointmentsAll(int kidId, int appointmentId) {
-    // TODO: implement putAppointmentsAll
-    throw UnimplementedError();
+  Future<AppointmentsState> putAppointmentsAll(int kidId, int appointmentId,
+      String doutor, String dataConsulta, String status, int score) async {
+    try {
+      final response = await dio.put(
+        "$apiUrl/accounts/me/kids/$kidId/appointments/$appointmentId/",
+        data: {
+          "kid": kidId,
+          "doctor": doutor,
+          "date": dataConsulta,
+          "status": status,
+          "score": score
+        },
+      );
+      return (response.statusCode == 200)
+          ? const SuccessOtherAppointmentsState()
+          : const OtherErrorExceptionAppointmentsState(
+              error: "Não foi possivel atualizar os dados!");
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response!.statusCode == 400) {
+          return OtherErrorExceptionAppointmentsState(error: e.response!.data);
+        }
+        return const OtherErrorExceptionAppointmentsState(
+            error: "Não foi possivel atualizar os dados!");
+      }
+      return const OtherErrorExceptionAppointmentsState(
+          error: "Não foi possivel atualizar os dados!");
+    }
   }
 
   @override
@@ -80,18 +118,18 @@ class AppointmentsService implements IAppointmentsService {
       );
       return (response.statusCode == 201)
           ? const SuccessOtherAppointmentsState()
-          : const CreateErrorExceptionAppointmentsState(
+          : const OtherErrorExceptionAppointmentsState(
               error: "Erro ao cadastrar consulta!");
     } catch (e) {
       if (e is DioError) {
         if (e.response!.statusCode == 400) {
-          return CreateErrorExceptionAppointmentsState(
+          return OtherErrorExceptionAppointmentsState(
               error: e.response!.data["date"][0]);
         }
-        return const CreateErrorExceptionAppointmentsState(
+        return const OtherErrorExceptionAppointmentsState(
             error: "Erro ao cadastrar consulta!");
       }
-      return const CreateErrorExceptionAppointmentsState(
+      return const OtherErrorExceptionAppointmentsState(
           error: "Erro ao cadastrar consulta!");
     }
   }
