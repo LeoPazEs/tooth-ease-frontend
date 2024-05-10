@@ -22,6 +22,7 @@ class AppointmentWidgetState extends State<AppointmentWidget> {
         itemBuilder: (BuildContext context, int index) =>
             AppointmentsCardWidget(
               appointments: store.appointments[index],
+              store: store,
             ));
   }
 }

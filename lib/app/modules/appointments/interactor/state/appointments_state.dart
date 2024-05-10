@@ -19,6 +19,11 @@ class ErrorExceptionAppointmentsState implements AppointmentsState {
   const ErrorExceptionAppointmentsState();
 }
 
+class OtherErrorExceptionAppointmentsState implements AppointmentsState {
+  final dynamic error;
+  const OtherErrorExceptionAppointmentsState({required this.error});
+}
+
 class LoadingAppointmentsState implements AppointmentsState {
   const LoadingAppointmentsState();
 }

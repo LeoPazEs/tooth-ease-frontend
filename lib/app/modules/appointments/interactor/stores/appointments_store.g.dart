@@ -57,6 +57,38 @@ mixin _$AppointmentsStore on _AppointmentsStoreBase, Store {
     });
   }
 
+  late final _$selectedStatusAtom =
+      Atom(name: '_AppointmentsStoreBase.selectedStatus', context: context);
+
+  @override
+  String? get selectedStatus {
+    _$selectedStatusAtom.reportRead();
+    return super.selectedStatus;
+  }
+
+  @override
+  set selectedStatus(String? value) {
+    _$selectedStatusAtom.reportWrite(value, super.selectedStatus, () {
+      super.selectedStatus = value;
+    });
+  }
+
+  late final _$selectedScoreAtom =
+      Atom(name: '_AppointmentsStoreBase.selectedScore', context: context);
+
+  @override
+  int? get selectedScore {
+    _$selectedScoreAtom.reportRead();
+    return super.selectedScore;
+  }
+
+  @override
+  set selectedScore(int? value) {
+    _$selectedScoreAtom.reportWrite(value, super.selectedScore, () {
+      super.selectedScore = value;
+    });
+  }
+
   late final _$selectDateAndTimeAsyncAction =
       AsyncAction('_AppointmentsStoreBase.selectDateAndTime', context: context);
 
@@ -68,6 +100,28 @@ mixin _$AppointmentsStore on _AppointmentsStoreBase, Store {
 
   late final _$_AppointmentsStoreBaseActionController =
       ActionController(name: '_AppointmentsStoreBase', context: context);
+
+  @override
+  void setSelectedScore(int value) {
+    final _$actionInfo = _$_AppointmentsStoreBaseActionController.startAction(
+        name: '_AppointmentsStoreBase.setSelectedScore');
+    try {
+      return super.setSelectedScore(value);
+    } finally {
+      _$_AppointmentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSelectedStatus(String value) {
+    final _$actionInfo = _$_AppointmentsStoreBaseActionController.startAction(
+        name: '_AppointmentsStoreBase.setSelectedStatus');
+    try {
+      return super.setSelectedStatus(value);
+    } finally {
+      _$_AppointmentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic emit(AppointmentsState newState) {
@@ -85,7 +139,9 @@ mixin _$AppointmentsStore on _AppointmentsStoreBase, Store {
     return '''
 state: ${state},
 selectedDate: ${selectedDate},
-selectedTime: ${selectedTime}
+selectedTime: ${selectedTime},
+selectedStatus: ${selectedStatus},
+selectedScore: ${selectedScore}
     ''';
   }
 }
