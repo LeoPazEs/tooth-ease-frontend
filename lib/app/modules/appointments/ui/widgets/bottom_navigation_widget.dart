@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tooth_ease_frontend/app/modules/kids/interactor/stores/kids_store.dart';
+import 'package:tooth_ease_frontend/app/modules/appointments/interactor/stores/appointments_store.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
-  final KidsStore store;
+  final AppointmentsStore store;
   const BottomNavigationWidget({
     super.key,
     required this.store,
@@ -19,9 +18,7 @@ class BottomNavigationWidget extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.home, size: 30),
-              onPressed: () {
-                Modular.to.navigate("/kids");
-              },
+              onPressed: () {},
               color: Colors.black,
             ),
             IconButton(
@@ -31,7 +28,7 @@ class BottomNavigationWidget extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.logout, size: 30),
-              onPressed: () => store.logOut(),
+              onPressed: () {},
               color: Colors.black,
             ),
           ],

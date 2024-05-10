@@ -17,11 +17,17 @@ class KidsWidgetState extends State<KidsWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(8),
-        itemCount: store.kids.length,
-        itemBuilder: (BuildContext context, int index) => KidCardWidget(
-              kid: store.kids[index],
-            ));
+      shrinkWrap: true,
+      padding: const EdgeInsets.all(8),
+      itemCount: store.kids.length,
+      itemBuilder: (BuildContext context, int index) => GestureDetector(
+        onTap: () => Modular.to
+            .pushNamed("/appointments/", arguments: store.kids[index].id),
+        child: KidCardWidget(
+          kid: store.kids[index],
+          store: store,
+        ),
+      ),
+    );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:tooth_ease_frontend/app/modules/kids/data/entities/error_entities.dart';
+
 import '../../data/entities/kid_entities.dart';
 
 abstract interface class KidsState {}
@@ -16,7 +18,7 @@ class SuccessGetKidsState implements KidsState {
 }
 
 class SuccessKidsState implements KidsState {
-  final List<KidEntity> kids;
+  final List<CompleteKidEntity> kids;
   const SuccessKidsState({required this.kids});
 }
 
@@ -30,4 +32,9 @@ class LoadingKidsState implements KidsState {
 
 class EmptyKidsState implements KidsState {
   const EmptyKidsState();
+}
+
+class ErrorCreateKidState implements KidsState {
+  final ErrorCreateKidEntity error;
+  const ErrorCreateKidState({required this.error});
 }

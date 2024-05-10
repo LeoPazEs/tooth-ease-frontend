@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
-import 'package:tooth_ease_frontend/env.dart';
+import 'package:tooth_ease_frontend/app/modules/shared/env.dart';
 
 abstract interface class ITokenAuthService {
   Future<bool> isValid(String key);
@@ -42,7 +43,7 @@ class TokenAuthService implements ITokenAuthService {
         }
       }
     } catch (e) {
-      print("Erro ao atualizar o token: $e");
+      debugPrint("Erro ao atualizar o token: $e");
     }
   }
 }
