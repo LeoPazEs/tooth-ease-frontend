@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/data/adapters/Appointments_adapters.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/data/entities/appointments_entity.dart';
+import 'package:tooth_ease_frontend/app/modules/appointments/data/entities/error_entities.dart';
 
 import '../../../shared/env.dart';
 import '../../interactor/state/appointments_state.dart';
@@ -46,8 +47,8 @@ class AppointmentsService implements IAppointmentsService {
   Future<AppointmentsState> deleteAppointments(
       int kidId, int appointmentId) async {
     try {
-      final response =
-          await dio.delete("$apiUrl/accounts/me/kids/$kidId/appointments/");
+      final response = await dio.delete(
+          "$apiUrl/accounts/me/kids/$kidId/appointments/$appointmentId/");
       if (response.statusCode == 204) {
         return const SuccessOtherAppointmentsState();
       } else {
@@ -55,6 +56,7 @@ class AppointmentsService implements IAppointmentsService {
             error: "Não foi possivel deletar consulta!");
       }
     } catch (e) {
+      print(e);
       return const OtherErrorExceptionAppointmentsState(
           error: "Não foi possivel deletar consulta!");
     }
@@ -93,7 +95,13 @@ class AppointmentsService implements IAppointmentsService {
     } catch (e) {
       if (e is DioError) {
         if (e.response!.statusCode == 400) {
-          return OtherErrorExceptionAppointmentsState(error: e.response!.data);
+          return SubmitErrorExceptionAppointmentsState(
+            error: ErrorCreateAppointmentsEntity(
+              date: e.response!.data["date"],
+              name: e.response!.data["doctor"],
+              detail: e.response!.data["non_field_errors"][0],
+            ),
+          );
         }
         return const OtherErrorExceptionAppointmentsState(
             error: "Não foi possivel atualizar os dados!");
@@ -118,13 +126,17 @@ class AppointmentsService implements IAppointmentsService {
       );
       return (response.statusCode == 201)
           ? const SuccessOtherAppointmentsState()
-          : const OtherErrorExceptionAppointmentsState(
-              error: "Erro ao cadastrar consulta!");
+          : const ErrorExceptionAppointmentsState();
     } catch (e) {
       if (e is DioError) {
         if (e.response!.statusCode == 400) {
-          return OtherErrorExceptionAppointmentsState(
-              error: e.response!.data["date"][0]);
+          return SubmitErrorExceptionAppointmentsState(
+            error: ErrorCreateAppointmentsEntity(
+              date: e.response!.data["date"],
+              name: e.response!.data["doctor"],
+              detail: e.response!.data["non_field_errors"],
+            ),
+          );
         }
         return const OtherErrorExceptionAppointmentsState(
             error: "Erro ao cadastrar consulta!");

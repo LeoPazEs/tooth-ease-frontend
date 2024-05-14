@@ -26,8 +26,12 @@ class ConsultaModalPut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.white,
-      title: const Text("Adicionar anotação"),
+      title: Image.asset(
+        "assets/images/tooth.png",
+        height: 50,
+      ),
       content: Form(
         key: store.formKey,
         child: Column(

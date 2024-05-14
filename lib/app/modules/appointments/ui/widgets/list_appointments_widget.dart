@@ -16,13 +16,13 @@ class AppointmentWidgetState extends State<AppointmentWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(8),
-        itemCount: store.appointments.length,
-        itemBuilder: (BuildContext context, int index) =>
-            AppointmentsCardWidget(
-              appointments: store.appointments[index],
-              store: store,
-            ));
+      shrinkWrap: true,
+      padding: const EdgeInsets.all(8),
+      itemCount: store.appointments.length,
+      itemBuilder: (BuildContext context, int index) => AppointmentsCardWidget(
+        appointments: store.appointments[index],
+        store: store,
+      ),
+    );
   }
 }

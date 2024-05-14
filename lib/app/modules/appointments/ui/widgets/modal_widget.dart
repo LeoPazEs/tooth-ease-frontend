@@ -8,20 +8,19 @@ class ConsultaModal extends StatelessWidget {
 
   ConsultaModal({Key? key, required this.store}) : super(key: key);
 
-  void exibirModal(BuildContext context) {
-    showDialog(
+  void exibirModal(BuildContext context) => showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return ConsultaModal(store: store);
-      },
-    );
-  }
+      builder: (BuildContext context) => ConsultaModal(store: store));
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.white,
-      title: const Text("Adicionar anotação"),
+      title: Image.asset(
+        "assets/images/tooth.png",
+        height: 50,
+      ),
       content: Form(
         key: store.formKey,
         child: Column(

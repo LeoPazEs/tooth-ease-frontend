@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/interactor/stores/appointments_store.dart';
+import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/confirm_alert_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/modal_put_widget.dart';
 
 import '../../data/entities/appointments_entity.dart';
@@ -78,7 +79,13 @@ class AppointmentsCardWidget extends StatelessWidget {
                             size: 25,
                           ),
                           onTap: () {
-                            store.deleteApointment(appointments.id);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ConfirmAlert(
+                                    store: store, appointments: appointments);
+                              },
+                            );
                           },
                         ),
                       ),
@@ -89,7 +96,8 @@ class AppointmentsCardWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Status: ${appointments.status}"),
+                  Text(
+                      "Status: ${(appointments.status == "completed") ? "Completo" : "Pendente"}"),
                   Text("Nota: ${appointments.score}")
                 ],
               ),

@@ -135,12 +135,13 @@ abstract class _AppointmentsStoreBase with Store {
     handleResponse(response);
   }
 
+  @action
   void handleResponse(AppointmentsState response) {
     if (response is SuccessOtherAppointmentsState) {
       getAppointmentsAll();
     } else if (response is OtherErrorExceptionAppointmentsState) {
       Fluttertoast.showToast(
-        msg: response.error["non_field_errors"][0].toString(),
+        msg: response.error,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
@@ -148,6 +149,39 @@ abstract class _AppointmentsStoreBase with Store {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+      getAppointmentsAll();
+    } else if (response is SubmitErrorExceptionAppointmentsState) {
+      if (response.error.date.isNotEmpty) {
+        Fluttertoast.showToast(
+          msg: response.error.date,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else if (response.error.name.isNotEmpty) {
+        Fluttertoast.showToast(
+          msg: response.error.date,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: response.error.detail,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
       getAppointmentsAll();
     }
   }

@@ -1,4 +1,5 @@
 import 'package:tooth_ease_frontend/app/modules/appointments/data/entities/appointments_entity.dart';
+import 'package:tooth_ease_frontend/app/modules/appointments/data/entities/error_entities.dart';
 
 abstract interface class AppointmentsState {}
 
@@ -20,8 +21,13 @@ class ErrorExceptionAppointmentsState implements AppointmentsState {
 }
 
 class OtherErrorExceptionAppointmentsState implements AppointmentsState {
-  final dynamic error;
+  final String error;
   const OtherErrorExceptionAppointmentsState({required this.error});
+}
+
+class SubmitErrorExceptionAppointmentsState implements AppointmentsState {
+  final ErrorAppointments error;
+  const SubmitErrorExceptionAppointmentsState({required this.error});
 }
 
 class LoadingAppointmentsState implements AppointmentsState {
