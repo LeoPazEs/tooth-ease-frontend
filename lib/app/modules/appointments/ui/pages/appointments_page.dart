@@ -8,6 +8,7 @@ import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/bottom_n
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/empty_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/error_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/loading_wiget.dart';
+import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/modal_filter_widget.dart';
 
 import '../widgets/list_appointments_widget.dart';
 import '../widgets/modal_widget.dart';
@@ -37,8 +38,13 @@ class AppointmentsPageState extends State<AppointmentsPage> {
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-              icon: const Icon(Icons.add_rounded, size: 50),
-              onPressed: () => ConsultaModal(store: store).exibirModal(context))
+            icon: const Icon(Icons.add_rounded, size: 35),
+            onPressed: () => ConsultaModal(store: store).exibirModal(context),
+          ),
+          IconButton(
+            icon: const Icon(Icons.manage_search_outlined, size: 35),
+            onPressed: () => FilterModal(store: store).exibirModal(context),
+          ),
         ],
       ),
       body: Observer(

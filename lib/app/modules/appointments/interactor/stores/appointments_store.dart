@@ -37,6 +37,68 @@ abstract class _AppointmentsStoreBase with Store {
 
   String? finalDate;
 
+  @observable
+  String filterDoctorName = '';
+
+  @observable
+  DateTime? filterDate;
+
+  @observable
+  String filterTime = '';
+
+  @observable
+  String? filterStatus;
+
+  @observable
+  int? filterScore;
+
+  @observable
+  ObservableList<AppointmentsEntity> filteredAppointments =
+      ObservableList<AppointmentsEntity>();
+
+  @action
+  void setFilterDoctorName(String value) {
+    filterDoctorName = value;
+    applyFilters();
+  }
+
+  @action
+  void setFilterDate(DateTime? date) {
+    filterDate = date;
+    applyFilters();
+  }
+
+  @action
+  void setFilterStatus(String? status) {
+    filterStatus = status;
+    applyFilters();
+  }
+
+  @action
+  void setFilterScore(int? score) {
+    filterScore = score;
+    applyFilters();
+  }
+
+  @action
+  void applyFilters() {
+    filteredAppointments = ObservableList.of(appointments.where((appointment) {
+      bool matchesDoctor = appointment.doctor
+          .toLowerCase()
+          .contains(filterDoctorName.toLowerCase());
+      bool matchesDate = filterDate == null ||
+          DateFormat('dd/MM/yyyy HH:mm')
+                  .format(DateTime.parse(appointment.date)) ==
+              DateFormat('dd/MM/yyyy HH:mm')
+                  .format(DateTime.parse(filterDate.toString()));
+      bool matchesStatus =
+          filterStatus == null || appointment.status == filterStatus;
+      bool matchesScore =
+          filterScore == null || appointment.score == filterScore;
+      return matchesDoctor && matchesDate && matchesStatus && matchesScore;
+    }));
+  }
+
   @action
   void setSelectedScore(int value) => selectedScore = value;
 
@@ -67,17 +129,24 @@ abstract class _AppointmentsStoreBase with Store {
           pickedTime.minute,
         );
         finalDate = selectedDate.toString();
+        setFilterDate(selectedDate);
         dataController.text =
             DateFormat('dd/MM/yyyy HH:mm').format(selectedDate);
       }
     }
   }
 
+  @action
   void clearController() {
     nomeController.clear();
+
     dataController.clear();
     selectedScore = null;
     selectedStatus = null;
+    filterDate = null;
+    filterStatus = null;
+    filterDoctorName = '';
+    filterScore = null;
   }
 
   void preencherForm(AppointmentsEntity appointmentsEntity) {
@@ -102,6 +171,7 @@ abstract class _AppointmentsStoreBase with Store {
         await appointmentsService.getAppointmentsAll(id);
     appointments =
         response is SuccessAppointmentsState ? response.appointments : [];
+    applyFilters();
     emit(response);
   }
 
@@ -182,6 +252,7 @@ abstract class _AppointmentsStoreBase with Store {
           fontSize: 16.0,
         );
       }
+      clearController();
       getAppointmentsAll();
     }
   }
