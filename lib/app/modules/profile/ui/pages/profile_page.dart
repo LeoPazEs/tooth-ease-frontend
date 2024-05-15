@@ -15,12 +15,9 @@ class ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
-        children: <Widget>[],
-      ),
+      bottomNavigationBar: BottomNavigationWidget(store: store),
+      appBar: AppBarWidget(title: widget.title),
+      resizeToAvoidBottomInset: false,
     );
   }
 }
