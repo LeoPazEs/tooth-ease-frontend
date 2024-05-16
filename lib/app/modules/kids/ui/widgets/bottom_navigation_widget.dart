@@ -20,13 +20,15 @@ class BottomNavigationWidget extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.home, size: 30),
               onPressed: () {
-                Modular.to.navigate("/kids");
+                Modular.to.navigate("/home");
               },
               color: Colors.black,
             ),
             IconButton(
               icon: const Icon(Icons.person, size: 30),
-              onPressed: () {},
+              onPressed: () {
+                Modular.to.navigate("/profile");
+              },
               color: Colors.black,
             ),
             IconButton(

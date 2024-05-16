@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/interactor/stores/appointments_store.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
@@ -18,17 +19,23 @@ class BottomNavigationWidget extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.home, size: 30),
-              onPressed: () {},
+              onPressed: () {
+                Modular.to.navigate("/home");
+              },
               color: Colors.black,
             ),
             IconButton(
               icon: const Icon(Icons.person, size: 30),
-              onPressed: () {},
+              onPressed: () {
+                Modular.to.navigate("/profile");
+              },
               color: Colors.black,
             ),
             IconButton(
               icon: const Icon(Icons.logout, size: 30),
-              onPressed: () {},
+              onPressed: () {
+                store.logOut();
+              },
               color: Colors.black,
             ),
           ],

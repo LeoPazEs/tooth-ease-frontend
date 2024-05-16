@@ -4,12 +4,16 @@ import 'package:tooth_ease_frontend/app/modules/appointments/ui/pages/appointmen
 import 'package:tooth_ease_frontend/app/modules/appointments/interactor/stores/appointments_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../shared/secure_storage_service.dart';
+
 class AppointmentsModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.lazySingleton((i) => AppointmentsService(dio: i.get<Dio>())),
-    Bind.lazySingleton((i) =>
-        AppointmentsStore(appointmentsService: i.get<AppointmentsService>())),
+    Bind.lazySingleton((i) => AppointmentsStore(
+        appointmentsService: i.get<AppointmentsService>(),
+        storage: i.get<SecureStorageService>(),
+        store: i.get<AppointmentsStore>())),
   ];
 
   @override

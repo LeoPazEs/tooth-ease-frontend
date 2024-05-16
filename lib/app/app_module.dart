@@ -6,9 +6,9 @@ import 'package:tooth_ease_frontend/app/modules/login/guard/auth_guard.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/interceptor.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/token_auth.dart';
 
-import 'modules/home/home_module.dart';
 import 'modules/kids/kids_module.dart';
 import 'modules/login/login_module.dart';
+import 'modules/profile/profile_module.dart';
 import 'modules/shared/secure_storage_service.dart';
 
 class AppModule extends Module {
@@ -46,8 +46,9 @@ class AppModule extends Module {
         ),
       )
     ]),
-    ModuleRoute('/login', module: LoginModule()),
-    ModuleRoute('/home', module: HomeModule()),
-    ModuleRoute('/appointments', module: AppointmentsModule()),
+    ModuleRoute('/login/', module: LoginModule()),
+    ModuleRoute('/home/', module: KidsModule()),
+    ModuleRoute('/appointments/', module: AppointmentsModule()),
+    ModuleRoute('/profile/', module: ProfileModule()),
   ];
 }

@@ -11,7 +11,7 @@ class SuccessResponseProfileState implements ProfileState {
 }
 
 class SuccessProfileState implements ProfileState {
-  final List<ProfileEntity> profile;
+  final ProfileEntity profile;
   const SuccessProfileState({required this.profile});
 }
 

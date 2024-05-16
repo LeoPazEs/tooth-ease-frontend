@@ -15,12 +15,20 @@ class UserEntity {
 
 class ProfileEntity {
   final UserEntity user;
-  final DateTime birthDate;
-  final int age;
+  final DateTime? birthDate;
+  final int? age;
 
   ProfileEntity({
     required this.user,
     required this.birthDate,
     required this.age,
+  });
+}
+
+class PatchProfileEntity {
+  final DateTime birthDate;
+
+  PatchProfileEntity({
+    required this.birthDate,
   });
 }
