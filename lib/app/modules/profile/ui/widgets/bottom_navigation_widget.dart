@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tooth_ease_frontend/app/modules/appointments/interactor/stores/appointments_store.dart';
+import 'package:tooth_ease_frontend/app/modules/profile/interactor/stores/profile_store.dart';
+import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
-  final AppointmentsStore store;
+  final ProfileStore store;
+  final SecureStorageService storage;
+
   const BottomNavigationWidget({
     super.key,
+    required this.storage,
     required this.store,
   });
 
@@ -33,9 +37,7 @@ class BottomNavigationWidget extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.logout, size: 30),
-              onPressed: () {
-                store.logOut();
-              },
+              onPressed: () => store.logOut(),
               color: Colors.black,
             ),
           ],

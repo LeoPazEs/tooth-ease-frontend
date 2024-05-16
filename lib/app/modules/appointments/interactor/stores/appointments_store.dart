@@ -7,14 +7,21 @@ import 'package:tooth_ease_frontend/app/modules/appointments/data/entities/appoi
 import 'package:tooth_ease_frontend/app/modules/appointments/data/services/appointments_services.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/interactor/state/appointments_state.dart';
 
+import '../../../shared/secure_storage_service.dart';
+
 part 'appointments_store.g.dart';
 
 class AppointmentsStore = _AppointmentsStoreBase with _$AppointmentsStore;
 
 abstract class _AppointmentsStoreBase with Store {
   final AppointmentsService appointmentsService;
+  final AppointmentsStore store;
+  final SecureStorageService storage;
 
-  _AppointmentsStoreBase({required this.appointmentsService});
+  _AppointmentsStoreBase(
+      {required this.appointmentsService,
+      required this.store,
+      required this.storage});
 
   @observable
   AppointmentsState state = const StartAppointmentsState();
@@ -255,5 +262,10 @@ abstract class _AppointmentsStoreBase with Store {
       clearController();
       getAppointmentsAll();
     }
+  }
+
+  Future logOut() async {
+    await storage.deleteAll();
+    Modular.to.navigate("/login");
   }
 }
