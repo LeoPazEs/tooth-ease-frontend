@@ -1,3 +1,13 @@
+class PatchUserEntity {
+  final String firstName;
+  final String lastName;
+
+  PatchUserEntity({
+    required this.firstName,
+    required this.lastName,
+  });
+}
+
 class UserEntity {
   final int id;
   final String username;
@@ -27,8 +37,10 @@ class ProfileEntity {
 
 class PatchProfileEntity {
   final DateTime birthDate;
+  final PatchUserEntity user;
 
   PatchProfileEntity({
+    required this.user,
     required this.birthDate,
   });
 }

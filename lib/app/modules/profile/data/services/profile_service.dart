@@ -9,7 +9,8 @@ import '../adapters/profile_adapter.dart';
 
 abstract class IProfileService {
   Future<ProfileState> getProfile();
-  Future<ProfileState> patchProfile(PatchProfileEntity profileEntity);
+  Future<ProfileState> patchProfile(
+      PatchProfileEntity profileEntity, PatchUserEntity userEntity);
 }
 
 class ProfileService implements IProfileService {
@@ -41,10 +42,11 @@ class ProfileService implements IProfileService {
   }
 
   @override
-  Future<ProfileState> patchProfile(PatchProfileEntity profileEntity) async {
+  Future<ProfileState> patchProfile(
+      PatchProfileEntity profileEntity, PatchUserEntity userEntity) async {
     try {
-      var response =
-          await dio.patch(url, data: ProfileAdapter.toJson(profileEntity));
+      var response = await dio.patch(url,
+          data: ProfileAdapter.toJson(profileEntity, userEntity));
       if (response.statusCode == 200) {
         return const SuccessResponseProfileState();
       } else {

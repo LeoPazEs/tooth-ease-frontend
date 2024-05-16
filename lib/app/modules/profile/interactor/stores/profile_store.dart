@@ -67,10 +67,15 @@ abstract class _ProfileStoreBase with Store {
   Future editProfile() async {
     emit(const LoadingProfileState());
     DateFormat inputFormat = DateFormat('dd/MM/yyyy');
+    final user = PatchUserEntity(
+      firstName: firstNameController.text,
+      lastName: lastNameController.text,
+    );
     final profile = PatchProfileEntity(
+      user: user,
       birthDate: inputFormat.parse(birthDateController.text),
     );
-    ProfileState response = await profileService.patchProfile(profile);
+    ProfileState response = await profileService.patchProfile(profile, user);
     if (response is SuccessResponseProfileState) {
       getProfile();
       Fluttertoast.showToast(

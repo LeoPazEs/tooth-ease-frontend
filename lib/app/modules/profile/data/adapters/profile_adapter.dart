@@ -12,7 +12,10 @@ class ProfileAdapter {
         age: json["age"],
       );
 
-  static Map<String, dynamic> toJson(PatchProfileEntity profileEntity) => {
+  static Map<String, dynamic> toJson(
+          PatchProfileEntity profileEntity, PatchUserEntity userEntity) =>
+      {
+        "user": UserAdapter.toJson(userEntity),
         "birth_date": DateFormat('yyyy-MM-dd').format(profileEntity.birthDate),
       };
 }
@@ -27,4 +30,9 @@ class UserAdapter {
         lastName: json["last_name"],
         fullName: json["full_name"],
       );
+
+  static Map<String, dynamic> toJson(PatchUserEntity userEntity) => {
+        "first_name": userEntity.firstName,
+        "last_name": userEntity.lastName,
+      };
 }
