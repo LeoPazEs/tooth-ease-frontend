@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/interactor/state/appointments_state.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/interactor/stores/appointments_store.dart';
-import 'package:flutter/material.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/background_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/bottom_navigation_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/empty_widget.dart';
@@ -38,13 +38,17 @@ class AppointmentsPageState extends State<AppointmentsPage> {
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.add_rounded, size: 35),
-            onPressed: () => ConsultaModal(store: store).exibirModal(context),
-          ),
+              icon: const Icon(Icons.add_rounded, size: 35),
+              onPressed: () {
+                store.clearController();
+                ConsultaModal(store: store).exibirModal(context);
+              }),
           IconButton(
-            icon: const Icon(Icons.manage_search_outlined, size: 35),
-            onPressed: () => FilterModal(store: store).exibirModal(context),
-          ),
+              icon: const Icon(Icons.manage_search_outlined, size: 35),
+              onPressed: () {
+                store.clearController();
+                FilterModal(store: store).exibirModal(context);
+              }),
         ],
       ),
       body: Observer(

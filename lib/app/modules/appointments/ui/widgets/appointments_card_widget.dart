@@ -66,26 +66,8 @@ class AppointmentsCardWidget extends StatelessWidget {
                             ConsultaModalPut(
                               store: store,
                               appointmentsId: appointments.id,
+                              appointments: appointments,
                             ).exibirModal(context);
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.03),
-                        child: GestureDetector(
-                          child: const Icon(
-                            Icons.delete,
-                            size: 25,
-                          ),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return ConfirmAlert(
-                                    store: store, appointments: appointments);
-                              },
-                            );
                           },
                         ),
                       ),

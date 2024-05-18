@@ -11,9 +11,9 @@ class AppointmentsModule extends Module {
   final List<Bind> binds = [
     Bind.lazySingleton((i) => AppointmentsService(dio: i.get<Dio>())),
     Bind.lazySingleton((i) => AppointmentsStore(
-        appointmentsService: i.get<AppointmentsService>(),
-        storage: i.get<SecureStorageService>(),
-        store: i.get<AppointmentsStore>())),
+          appointmentsService: i.get<AppointmentsService>(),
+          storage: i.get<SecureStorageService>(),
+        )),
   ];
 
   @override

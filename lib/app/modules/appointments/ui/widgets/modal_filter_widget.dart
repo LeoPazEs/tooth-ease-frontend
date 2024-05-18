@@ -34,20 +34,20 @@ class FilterModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Doutor',
-                contentPadding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.height * 0.01,
+                controller: store.nomeController,
+                decoration: InputDecoration(
+                  labelText: 'Doutor',
+                  contentPadding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
                 ),
-                border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-              ),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (usuario) => usuario == null || usuario.isEmpty
-                  ? 'Por favor, insira um nome'
-                  : null,
-              onChanged: (value) => store.setFilterDoctorName(value),
-            ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (usuario) => usuario == null || usuario.isEmpty
+                    ? 'Por favor, insira um nome'
+                    : null,
+                onChanged: (value) {}),
             const SizedBox(
               height: 10,
             ),
@@ -60,17 +60,17 @@ class FilterModal extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 1),
                 child: DropdownButtonHideUnderline(
-                  child: DropdownButton<int>(
-                    value: store.filterScore,
+                  child: DropdownButton<String>(
+                    value: store.selectedScore,
                     hint: Text('Avaliação'),
-                    onChanged: (int? newValue) {
+                    onChanged: (String? newValue) {
                       if (newValue != null) {
-                        store.setFilterScore(newValue);
+                        store.setSelectedScore(newValue);
                       }
                     },
                     items: List.generate(11, (index) {
-                      return DropdownMenuItem<int>(
-                        value: index,
+                      return DropdownMenuItem<String>(
+                        value: index.toString(),
                         child: Text('$index'),
                       );
                     }),
@@ -91,11 +91,11 @@ class FilterModal extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 1),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
-                    value: store.filterStatus,
+                    value: store.selectedStatus,
                     hint: Text('Status'),
                     onChanged: (String? newValue) {
                       if (newValue != null) {
-                        store.setFilterStatus(newValue);
+                        store.setSelectedStatus(newValue);
                       }
                     },
                     items: [
@@ -150,7 +150,6 @@ class FilterModal extends StatelessWidget {
       actions: [
         ElevatedButton(
           onPressed: () {
-            store.clearController();
             store.getAppointmentsAll();
             Navigator.pop(context);
           },
@@ -160,7 +159,7 @@ class FilterModal extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          child: const Text("Limpar filtros",
+          child: const Text("Filtrar consulta",
               style: TextStyle(color: Colors.black)),
         ),
       ],

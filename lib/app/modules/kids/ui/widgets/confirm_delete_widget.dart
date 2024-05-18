@@ -20,7 +20,7 @@ class _ConfirmDeleteWidgetState extends State<ConfirmDeleteWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
-      const Text("Realmente deseja excluir ?"),
+      const Text("Realmente deseja excluir?"),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
             padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),
