@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/data/entities/appointments_entity.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/interactor/stores/appointments_store.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/confirm_alert_widget.dart';
-import 'package:tooth_ease_frontend/app/modules/kids/ui/widgets/confirm_delete_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/mask.dart';
 
 class ConsultaModalPut extends StatelessWidget {
@@ -11,12 +10,11 @@ class ConsultaModalPut extends StatelessWidget {
   final int appointmentsId;
   final AppointmentsEntity appointments;
 
-  ConsultaModalPut(
-      {Key? key,
+  const ConsultaModalPut(
+      {super.key,
       required this.store,
       required this.appointmentsId,
-      required this.appointments})
-      : super(key: key);
+      required this.appointments});
 
   void exibirModal(BuildContext context) {
     showDialog(
@@ -70,11 +68,12 @@ class ConsultaModalPut extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.grey),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 1),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 1),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: store.selectedScore,
-                    hint: Text('Avalicação'),
+                    hint: const Text('Avalicação'),
                     onChanged: (String? newValue) {
                       if (newValue != null) {
                         store.setSelectedScore(newValue);
@@ -100,17 +99,18 @@ class ConsultaModalPut extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.grey),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 1),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 1),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: store.selectedStatus,
-                    hint: Text('Status'),
+                    hint: const Text('Status'),
                     onChanged: (String? newValue) {
                       if (newValue != null) {
                         store.setSelectedStatus(newValue);
                       }
                     },
-                    items: [
+                    items: const [
                       DropdownMenuItem<String>(
                         value: 'pending',
                         child: Text('Pendente'),

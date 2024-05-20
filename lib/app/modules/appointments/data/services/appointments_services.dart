@@ -63,7 +63,6 @@ class AppointmentsService implements IAppointmentsService {
             error: "Não foi possivel deletar consulta!");
       }
     } catch (e) {
-      print(e);
       return const OtherErrorExceptionAppointmentsState(
           error: "Não foi possivel deletar consulta!");
     }

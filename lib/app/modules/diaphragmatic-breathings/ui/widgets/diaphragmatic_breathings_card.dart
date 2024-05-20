@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:tooth_ease_frontend/app/modules/appointments/interactor/stores/appointments_store.dart';
-import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/modal_put_widget.dart';
 
-import '../../data/entities/appointments_entity.dart';
+import '../../data/entities/diaphragmatic_breathings_entity.dart';
+import '../../interactor/stores/diaphragmaticBreathings_store.dart';
 
-class AppointmentsCardWidget extends StatelessWidget {
-  final AppointmentsEntity appointments;
-  final AppointmentsStore store;
+class DiaphragmaticBreathingsCardWidget extends StatelessWidget {
+  final DiaphragmaticBreathingsEntity diaphragmaticBreathings;
+  final DiaphragmaticBreathingsStore store;
 
-  const AppointmentsCardWidget({
+  const DiaphragmaticBreathingsCardWidget({
     super.key,
-    required this.appointments,
+    required this.diaphragmaticBreathings,
     required this.store,
   });
 
@@ -44,7 +42,7 @@ class AppointmentsCardWidget extends StatelessWidget {
                     scale: 15,
                   ),
                   Text(
-                    appointments.doctor,
+                    diaphragmaticBreathings.date,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 20),
                   ),
@@ -59,35 +57,11 @@ class AppointmentsCardWidget extends StatelessWidget {
                             Icons.edit,
                             size: 25,
                           ),
-                          onTap: () {
-                            store.preencherForm(appointments);
-                            ConsultaModalPut(
-                              store: store,
-                              appointmentsId: appointments.id,
-                              appointments: appointments,
-                            ).exibirModal(context);
-                          },
+                          onTap: () {},
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                      "Status: ${(appointments.status == "completed") ? "Completo" : "Pendente"}"),
-                  Text("Nota: ${appointments.score}")
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                      "Data: ${DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.parse(appointments.date))}"),
-                  Text(
-                      "Respirações: ${appointments.diaphragmaticBreathingsMade}")
                 ],
               ),
             ],

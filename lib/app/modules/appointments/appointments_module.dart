@@ -18,6 +18,6 @@ class AppointmentsModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/', child: (_, args) => AppointmentsPage()),
+    ChildRoute('/', child: (_, args) => const AppointmentsPage()),
   ];
 }
