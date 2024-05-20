@@ -7,7 +7,7 @@ import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/backgrou
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/bottom_navigation_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/empty_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/error_widget.dart';
-import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/loading_wiget.dart';
+import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/ui/widgets/loading_wiget.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/modal_filter_widget.dart';
 
 import '../widgets/list_appointments_widget.dart';
