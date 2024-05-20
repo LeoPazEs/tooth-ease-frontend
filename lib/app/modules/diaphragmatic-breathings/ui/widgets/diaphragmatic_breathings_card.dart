@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/ui/widgets/modal_widget.dart';
 
 import '../../data/entities/diaphragmatic_breathings_entity.dart';
 import '../../interactor/stores/diaphragmaticBreathings_store.dart';
@@ -38,13 +40,14 @@ class DiaphragmaticBreathingsCardWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset(
-                    "assets/images/tooth.png",
-                    scale: 15,
+                    "assets/images/pulmoes.png",
+                    scale: 14,
                   ),
                   Text(
-                    diaphragmaticBreathings.date,
+                    DateFormat('dd/MM/yyyy HH:mm')
+                        .format(DateTime.parse(diaphragmaticBreathings.date)),
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 20),
+                        fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -52,13 +55,10 @@ class DiaphragmaticBreathingsCardWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.03),
-                        child: GestureDetector(
-                          child: const Icon(
-                            Icons.edit,
-                            size: 25,
-                          ),
-                          onTap: () {},
-                        ),
+                        child: IconButton(
+                            icon: const Icon(Icons.edit, size: 25),
+                            onPressed: () =>
+                                EditModal(store: store).exibirModal(context)),
                       ),
                     ],
                   ),

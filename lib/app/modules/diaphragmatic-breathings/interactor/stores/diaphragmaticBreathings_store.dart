@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/data/services/diaphragmatic_breathings_service.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/interactor/states/diaphragmatic_breathings_state.dart';
@@ -15,8 +17,20 @@ abstract class _DiaphragmaticBreathingsStoreBase with Store {
   _DiaphragmaticBreathingsStoreBase(
       {required this.diaphragmaticBreathingsService});
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController dataController = TextEditingController();
+
   @observable
-  DiaphragmaticBreathingsState state = const StartDiaphragmaticBreathingsState();
+  DateTime selectedDate = DateTime.now();
+
+  @observable
+  TimeOfDay selectedTime = TimeOfDay.now();
+
+  String? finalDate;
+
+  @observable
+  DiaphragmaticBreathingsState state =
+      const StartDiaphragmaticBreathingsState();
 
   List<DiaphragmaticBreathingsEntity> diaphragmaticBreathings = [];
 
@@ -25,6 +39,36 @@ abstract class _DiaphragmaticBreathingsStoreBase with Store {
 
   @action
   emit(DiaphragmaticBreathingsState newState) => state = newState;
+
+  @action
+  Future<void> selectDateAndTime(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 10),
+    );
+
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        initialTime: selectedTime,
+        context: context,
+      );
+
+      if (pickedTime != null) {
+        selectedDate = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+        finalDate = selectedDate.toString();
+        dataController.text =
+            DateFormat('dd/MM/yyyy HH:mm').format(selectedDate);
+      }
+    }
+  }
 
   getDiaphragmaticBreathings() async {
     emit(const LoadingDiaphragmaticBreathingsState());

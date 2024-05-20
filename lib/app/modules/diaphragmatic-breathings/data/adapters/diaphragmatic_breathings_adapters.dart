@@ -5,8 +5,8 @@ class DiaphragmaticBreathingsAdapters {
 
   static DiaphragmaticBreathingsEntity fromJson(dynamic json) =>
       DiaphragmaticBreathingsEntity(
-        date: json['date'],
-        id: json['id'],
-        idAppointment: json['appointment'],
+        date: json['date'].toString(),
+        id: json['id'].toString(),
+        idAppointment: json['appointment'].toString(),
       );
 }

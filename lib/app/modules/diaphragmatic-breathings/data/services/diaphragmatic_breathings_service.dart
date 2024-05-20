@@ -38,19 +38,21 @@ class DiaphragmaticBreathingsService
     try {
       var response = await dio.get(
           '$apiUrl/accounts/me/kids/$kidId/appointments/$appointmentId/diaphragmatic-breathing/');
+
       List<DiaphragmaticBreathingsEntity> diaphragmaticBreathings =
           (response.data as List)
               .map((json) => DiaphragmaticBreathingsAdapters.fromJson(json))
               .toList();
       if (response.statusCode == 200) {
-        if(diaphragmaticBreathings.isNotEmpty){
-        return SuccessDiaphragmaticBreathingsState(
-            diaphragmaticBreathings: diaphragmaticBreathings);
+        if (diaphragmaticBreathings.isNotEmpty) {
+          return SuccessDiaphragmaticBreathingsState(
+              diaphragmaticBreathings: diaphragmaticBreathings);
         }
         return const EmptyDiaphragmaticBreathingsState();
       }
       return const ErrorExceptionDiaphragmaticBreathingsState();
     } catch (e) {
+      print(e);
       return const ErrorExceptionDiaphragmaticBreathingsState();
     }
   }
