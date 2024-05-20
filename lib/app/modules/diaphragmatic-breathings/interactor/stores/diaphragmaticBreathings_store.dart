@@ -16,12 +16,12 @@ abstract class _DiaphragmaticBreathingsStoreBase with Store {
       {required this.diaphragmaticBreathingsService});
 
   @observable
-  DiaphragmaticBreathingsState state = StartDiaphragmaticBreathingsState();
+  DiaphragmaticBreathingsState state = const StartDiaphragmaticBreathingsState();
 
   List<DiaphragmaticBreathingsEntity> diaphragmaticBreathings = [];
 
-  int kidId = Modular.args.data[0] as int;
-  int appointmentId = Modular.args.data[1] as int;
+  String kidId = Modular.args.data[1].toString();
+  String appointmentId = Modular.args.data[0].toString();
 
   @action
   emit(DiaphragmaticBreathingsState newState) => state = newState;
@@ -34,7 +34,6 @@ abstract class _DiaphragmaticBreathingsStoreBase with Store {
     (response is SuccessDiaphragmaticBreathingsState)
         ? diaphragmaticBreathings = response.diaphragmaticBreathings
         : diaphragmaticBreathings = [];
-
     emit(response);
   }
 }
