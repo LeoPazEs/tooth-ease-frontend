@@ -33,7 +33,9 @@ class BottomNavigationWidget extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.logout, size: 30),
-              onPressed: () {},
+              onPressed: () {
+                store.logOut();
+              },
               color: Colors.black,
             ),
           ],

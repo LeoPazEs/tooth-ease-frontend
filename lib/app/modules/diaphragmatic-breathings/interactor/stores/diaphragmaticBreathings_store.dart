@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/data/services/diaphragmatic_breathings_service.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/interactor/states/diaphragmatic_breathings_state.dart';
 
+import '../../../shared/secure_storage_service.dart';
 import '../../data/entities/diaphragmatic_breathings_entity.dart';
 
 part 'diaphragmaticBreathings_store.g.dart';
@@ -15,8 +16,10 @@ class DiaphragmaticBreathingsStore = _DiaphragmaticBreathingsStoreBase
 
 abstract class _DiaphragmaticBreathingsStoreBase with Store {
   final DiaphragmaticBreathingsService diaphragmaticBreathingsService;
+  final SecureStorageService storage;
+
   _DiaphragmaticBreathingsStoreBase(
-      {required this.diaphragmaticBreathingsService});
+      {required this.diaphragmaticBreathingsService, required this.storage});
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController dataController = TextEditingController();
@@ -151,5 +154,10 @@ abstract class _DiaphragmaticBreathingsStoreBase with Store {
   void preencherForm(DiaphragmaticBreathingsEntity appointmentsEntity) {
     dataController.text = DateFormat('dd/MM/yyyy HH:mm')
         .format(DateTime.parse(appointmentsEntity.date));
+  }
+
+  Future logOut() async {
+    await storage.deleteAll();
+    Modular.to.navigate("/login");
   }
 }
