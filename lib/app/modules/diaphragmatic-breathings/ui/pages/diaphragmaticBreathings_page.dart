@@ -1,7 +1,6 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/ui/widgets/background_widget.dart';
-import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/ui/widgets/modal_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/interactor/states/diaphragmatic_breathings_state.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/interactor/stores/diaphragmaticBreathings_store.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,15 @@ class DiaphragmaticBreathingsPageState
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-              icon: const Icon(Icons.add_rounded, size: 35), onPressed: () {}),
+            icon: const Icon(Icons.add_rounded, size: 35),
+            onPressed: () => Modular.to.pushNamed(
+              "/diaphragmatic_Breathings/steps/",
+              arguments: [
+                store.appointmentId,
+                store.kidId,
+              ],
+            ),
+          ),
         ],
       ),
       body: Observer(builder: (context) {

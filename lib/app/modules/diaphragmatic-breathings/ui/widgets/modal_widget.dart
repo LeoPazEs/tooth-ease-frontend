@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/interactor/stores/diaphragmaticBreathings_store.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/ui/widgets/confirm_alert_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/mask.dart';
@@ -62,6 +63,7 @@ class EditModal extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 if (store.formKey.currentState!.validate()) {
+                  Modular.to.pop();
                   await store
                       .editDiaphragmaticBreathing(diaphragmaticBreathing.id);
                   Navigator.pop(context);

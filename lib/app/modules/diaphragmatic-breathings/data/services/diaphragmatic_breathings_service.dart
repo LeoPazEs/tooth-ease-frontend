@@ -1,16 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/data/adapters/diaphragmatic_breathings_adapters.dart';
+import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/data/adapters/diaphragmatic_breathings_step_adapters.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/data/entities/diaphragmatic_breathings_entity.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/env.dart';
 
 import '../../interactor/states/diaphragmatic_breathings_state.dart';
+import '../entities/diaphragmatic_breathings_step_entity.dart';
 
 abstract interface class IDiaphragmaticBreathingsService {
   Future<DiaphragmaticBreathingsState> getDiaphragmaticBreathingsAll(
       String kidId, String appointmentId);
   Future<DiaphragmaticBreathingsState> postDiaphragmaticBreathings(
-      String kidId, String appointmentId, String date);
+      String kidId, String appointmentId);
   Future<DiaphragmaticBreathingsState> putDiaphragmaticBreathings(String kidId,
       String appointmentId, String diaphragmaticBreathingId, String date);
   Future<DiaphragmaticBreathingsState> getDiaphragmaticBreathingsById(
@@ -61,16 +64,47 @@ class DiaphragmaticBreathingsService
   }
 
   @override
-  Future<DiaphragmaticBreathingsState> getStepDiaphragmaticBreathings() {
-    // TODO: implement getStepDiaphragmaticBreathings
-    throw UnimplementedError();
+  Future<DiaphragmaticBreathingsState> getStepDiaphragmaticBreathings() async {
+    try {
+      var response = await dio.get('$apiUrl/tutorial-diaphragmatic-breathing/');
+      List<DiaphragmaticBreathingsStepEntity> diaphragmaticBreathings =
+          (response.data as List)
+              .map((json) => DiaphragmaticBreathingsStepAdapters.fromJson(json))
+              .toList();
+      if (response.statusCode == 200) {
+        return SuccessDiaphragmaticBreathingsStepState(
+          diaphragmaticBreathings: diaphragmaticBreathings,
+        );
+      } else {
+        return const ErrorExceptionDiaphragmaticBreathingsState();
+      }
+    } catch (e) {
+      return const ErrorExceptionDiaphragmaticBreathingsState();
+    }
   }
 
   @override
   Future<DiaphragmaticBreathingsState> postDiaphragmaticBreathings(
-      String kidId, String appointmentId, String date) {
-    // TODO: implement postDiaphragmaticBreathings
-    throw UnimplementedError();
+      String kidId, String appointmentId) async {
+    try {
+      var response = await dio.post(
+        '$apiUrl/accounts/me/kids/$kidId/appointments/$appointmentId/diaphragmatic-breathing/',
+        data: {
+          'date': DateFormat('yyyy-MM-dd\'T\'HH:mm:ss.000\'Z\'')
+              .format(DateTime.now())
+        },
+      );
+      if (response.statusCode == 201) {
+        return const SuccessDiaphragmaticBreathingsStepState(
+            diaphragmaticBreathings: []);
+      }
+      return const ErrorExceptionDiaphragmaticBreathingsState();
+    } catch (e) {
+      if (e is DioError) {
+        debugPrint(e.response!.data.toString());
+      }
+      return const ErrorExceptionDiaphragmaticBreathingsState();
+    }
   }
 
   @override

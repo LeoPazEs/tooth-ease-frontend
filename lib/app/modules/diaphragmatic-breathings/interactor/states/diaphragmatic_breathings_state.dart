@@ -1,5 +1,7 @@
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/data/entities/diaphragmatic_breathings_entity.dart';
 
+import '../../data/entities/diaphragmatic_breathings_step_entity.dart';
+
 abstract interface class DiaphragmaticBreathingsState {}
 
 class StartDiaphragmaticBreathingsState
@@ -11,6 +13,13 @@ class SuccessDiaphragmaticBreathingsState
     implements DiaphragmaticBreathingsState {
   final List<DiaphragmaticBreathingsEntity> diaphragmaticBreathings;
   const SuccessDiaphragmaticBreathingsState(
+      {required this.diaphragmaticBreathings});
+}
+
+class SuccessDiaphragmaticBreathingsStepState
+    implements DiaphragmaticBreathingsState {
+  final List<DiaphragmaticBreathingsStepEntity> diaphragmaticBreathings;
+  const SuccessDiaphragmaticBreathingsStepState(
       {required this.diaphragmaticBreathings});
 }
 

@@ -98,7 +98,6 @@ abstract class _DiaphragmaticBreathingsStoreBase with Store {
       DateFormat('yyyy-MM-dd\'T\'HH:mm:ss.000\'Z\'').format(parsedDate),
     );
     if (response is SuccessDiaphragmaticBreathingsState) {
-      getDiaphragmaticBreathings();
       Fluttertoast.showToast(
           msg: "Respiração editada com sucesso",
           toastLength: Toast.LENGTH_SHORT,
@@ -117,6 +116,7 @@ abstract class _DiaphragmaticBreathingsStoreBase with Store {
           textColor: Colors.white,
           fontSize: 16.0);
     }
+    getDiaphragmaticBreathings();
     emit(response);
   }
 
