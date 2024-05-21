@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/interactor/stores/diaphragmaticBreathings_store.dart';
+import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/ui/widgets/confirm_alert_widget.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/mask.dart';
+
+import '../../data/entities/diaphragmatic_breathings_entity.dart';
 
 class EditModal extends StatelessWidget {
   final DiaphragmaticBreathingsStore store;
+  final DiaphragmaticBreathingsEntity diaphragmaticBreathing;
 
-  EditModal({Key? key, required this.store}) : super(key: key);
+  EditModal(
+      {Key? key, required this.store, required this.diaphragmaticBreathing})
+      : super(key: key);
 
   void exibirModal(BuildContext context) => showDialog(
       context: context,
-      builder: (BuildContext context) => EditModal(store: store));
+      builder: (BuildContext context) => EditModal(
+          store: store, diaphragmaticBreathing: diaphragmaticBreathing));
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +60,10 @@ class EditModal extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (store.formKey.currentState!.validate()) {
+                  await store
+                      .editDiaphragmaticBreathing(diaphragmaticBreathing.id);
                   Navigator.pop(context);
                 }
               },
@@ -68,8 +77,17 @@ class EditModal extends StatelessWidget {
                   const Text("Alterar", style: TextStyle(color: Colors.black)),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmAlert(
+                      store: store,
+                      diaphragmaticBreathing: diaphragmaticBreathing,
+                    );
+                  },
+                );
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,

@@ -10,6 +10,38 @@ part of 'diaphragmaticBreathings_store.dart';
 
 mixin _$DiaphragmaticBreathingsStore
     on _DiaphragmaticBreathingsStoreBase, Store {
+  late final _$selectedDateAtom = Atom(
+      name: '_DiaphragmaticBreathingsStoreBase.selectedDate', context: context);
+
+  @override
+  DateTime get selectedDate {
+    _$selectedDateAtom.reportRead();
+    return super.selectedDate;
+  }
+
+  @override
+  set selectedDate(DateTime value) {
+    _$selectedDateAtom.reportWrite(value, super.selectedDate, () {
+      super.selectedDate = value;
+    });
+  }
+
+  late final _$selectedTimeAtom = Atom(
+      name: '_DiaphragmaticBreathingsStoreBase.selectedTime', context: context);
+
+  @override
+  TimeOfDay get selectedTime {
+    _$selectedTimeAtom.reportRead();
+    return super.selectedTime;
+  }
+
+  @override
+  set selectedTime(TimeOfDay value) {
+    _$selectedTimeAtom.reportWrite(value, super.selectedTime, () {
+      super.selectedTime = value;
+    });
+  }
+
   late final _$stateAtom =
       Atom(name: '_DiaphragmaticBreathingsStoreBase.state', context: context);
 
@@ -24,6 +56,16 @@ mixin _$DiaphragmaticBreathingsStore
     _$stateAtom.reportWrite(value, super.state, () {
       super.state = value;
     });
+  }
+
+  late final _$selectDateAndTimeAsyncAction = AsyncAction(
+      '_DiaphragmaticBreathingsStoreBase.selectDateAndTime',
+      context: context);
+
+  @override
+  Future<void> selectDateAndTime(BuildContext context) {
+    return _$selectDateAndTimeAsyncAction
+        .run(() => super.selectDateAndTime(context));
   }
 
   late final _$_DiaphragmaticBreathingsStoreBaseActionController =
@@ -45,6 +87,8 @@ mixin _$DiaphragmaticBreathingsStore
   @override
   String toString() {
     return '''
+selectedDate: ${selectedDate},
+selectedTime: ${selectedTime},
 state: ${state}
     ''';
   }

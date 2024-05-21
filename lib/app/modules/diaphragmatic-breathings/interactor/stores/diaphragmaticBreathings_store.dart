@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/data/services/diaphragmatic_breathings_service.dart';
@@ -79,5 +80,76 @@ abstract class _DiaphragmaticBreathingsStoreBase with Store {
         ? diaphragmaticBreathings = response.diaphragmaticBreathings
         : diaphragmaticBreathings = [];
     emit(response);
+  }
+
+  editDiaphragmaticBreathing(String diaphragmaticBreathingId) async {
+    emit(const LoadingDiaphragmaticBreathingsState());
+    DateTime parsedDate =
+        DateFormat("dd/MM/yyyy HH:mm").parse(dataController.text);
+
+    DiaphragmaticBreathingsState response =
+        await diaphragmaticBreathingsService.putDiaphragmaticBreathings(
+      kidId.toString(),
+      appointmentId.toString(),
+      diaphragmaticBreathingId,
+      DateFormat('yyyy-MM-dd\'T\'HH:mm:ss.000\'Z\'').format(parsedDate),
+    );
+    if (response is SuccessDiaphragmaticBreathingsState) {
+      getDiaphragmaticBreathings();
+      Fluttertoast.showToast(
+          msg: "Respiração editada com sucesso",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Erro ao editar a respiração",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+    emit(response);
+  }
+
+  deleteDiaphragmaticBreathing(String diaphragmaticBreathingId) async {
+    emit(const LoadingDiaphragmaticBreathingsState());
+
+    DiaphragmaticBreathingsState response =
+        await diaphragmaticBreathingsService.deleteDiaphragmaticBreathings(
+            kidId.toString(),
+            appointmentId.toString(),
+            diaphragmaticBreathingId);
+    if (response is SuccessDiaphragmaticBreathingsState) {
+      getDiaphragmaticBreathings();
+      Fluttertoast.showToast(
+          msg: "Respiração excluída com sucesso",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Erro ao excluir a respiração",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+    emit(response);
+  }
+
+  void preencherForm(DiaphragmaticBreathingsEntity appointmentsEntity) {
+    dataController.text = DateFormat('dd/MM/yyyy HH:mm')
+        .format(DateTime.parse(appointmentsEntity.date));
   }
 }

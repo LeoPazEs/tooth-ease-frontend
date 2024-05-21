@@ -11,7 +11,7 @@ import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/ui/widg
 
 class DiaphragmaticBreathingsPage extends StatefulWidget {
   final String title;
-  const DiaphragmaticBreathingsPage({super.key, this.title = ''});
+  const DiaphragmaticBreathingsPage({super.key, this.title = 'Respirações'});
   @override
   DiaphragmaticBreathingsPageState createState() =>
       DiaphragmaticBreathingsPageState();

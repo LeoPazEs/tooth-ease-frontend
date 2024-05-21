@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/secure_storage_service.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/token_auth.dart';
 
@@ -19,7 +20,7 @@ class ApiInterceptor extends Interceptor {
           "Bearer ${await storage.read("token")}";
       handler.next(options);
     } catch (e) {
-      print("Erro durante a interceptação da solicitação: $e");
+      debugPrint("Erro durante a interceptação da solicitação: $e");
     }
   }
 }

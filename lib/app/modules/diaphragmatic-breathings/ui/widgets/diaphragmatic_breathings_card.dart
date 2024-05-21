@@ -57,8 +57,13 @@ class DiaphragmaticBreathingsCardWidget extends StatelessWidget {
                             bottom: MediaQuery.of(context).size.height * 0.03),
                         child: IconButton(
                             icon: const Icon(Icons.edit, size: 25),
-                            onPressed: () =>
-                                EditModal(store: store).exibirModal(context)),
+                            onPressed: () {
+                              store.preencherForm(diaphragmaticBreathings);
+                              EditModal(
+                                store: store,
+                                diaphragmaticBreathing: diaphragmaticBreathings,
+                              ).exibirModal(context);
+                            }),
                       ),
                     ],
                   ),
