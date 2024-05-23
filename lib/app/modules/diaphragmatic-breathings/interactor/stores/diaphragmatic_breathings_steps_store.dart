@@ -17,9 +17,10 @@ abstract class _DiaphragmaticBreathingsStepsStoreBase with Store {
   final DiaphragmaticBreathingsService diaphragmaticBreathingsService;
   final IAudioPlayerService audioPlayerService;
 
-  _DiaphragmaticBreathingsStepsStoreBase(
-      {required this.audioPlayerService,
-      required this.diaphragmaticBreathingsService});
+  _DiaphragmaticBreathingsStepsStoreBase({
+    required this.audioPlayerService,
+    required this.diaphragmaticBreathingsService,
+  });
 
   final PageController pageController = PageController();
 
@@ -36,8 +37,8 @@ abstract class _DiaphragmaticBreathingsStepsStoreBase with Store {
   emit(DiaphragmaticBreathingsState newState) => state = newState;
 
   playAudio() async {
-    await audioPlayerService
-        .playAudio("https://www.youtube.com/watch?v=pWjmpSD-ph0");
+    await audioPlayerService.playAudio(
+        "http://ec2-44-204-193-33.compute-1.amazonaws.com/media/audioTutorialDiaphragmaticBreathing/audio_RoEvZgk.mp3");
   }
 
   getDiaphragmaticBreathingsSteps() async {
@@ -51,11 +52,14 @@ abstract class _DiaphragmaticBreathingsStepsStoreBase with Store {
   }
 
   verifyPage() {
-    if (diaphragmaticBreathings.length == pageController.page?.round()) {
+    int currentPage = pageController.page?.round() ?? 0;
+    int lastPage = diaphragmaticBreathings.length - 1;
+
+    if (currentPage == lastPage) {
       postDiaphragmaticBreathings();
     } else {
       Fluttertoast.showToast(
-          msg: "Existem passos que não foram concluidos!",
+          msg: "Existem passos que não foram concluídos!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,

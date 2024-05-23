@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/data/services/audio_players_service.dart';
 import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/interactor/stores/diaphragmatic_breathings_steps_store.dart';
 import 'package:dio/dio.dart';
@@ -11,6 +12,7 @@ import '../shared/secure_storage_service.dart';
 class DiaphragmaticBreathingsModule extends Module {
   @override
   final List<Bind> binds = [
+    Bind.lazySingleton((i) => AudioPlayerService(player: AudioPlayer())),
     Bind.lazySingleton(
       (i) => DiaphragmaticBreathingsStepsStore(
         diaphragmaticBreathingsService: i.get<DiaphragmaticBreathingsService>(),

@@ -12,12 +12,15 @@ class AudioPlayerService implements IAudioPlayerService {
 
   @override
   Future playAudio(String url) async {
-    await player.play(UrlSource(url));
+    try {
+      await player.play(UrlSource(url));
+    } catch (e) {
+      print("error: $e");
+    }
   }
 
   @override
-  Future stopAudio() {
-    // TODO: implement stopAudio
-    throw UnimplementedError();
+  Future<void> stopAudio() async {
+    await player.stop();
   }
 }

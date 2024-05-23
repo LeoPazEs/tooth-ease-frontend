@@ -30,7 +30,7 @@ class BarraInferior extends StatelessWidget {
               width: 80,
             ),
             BotaoCircular(
-                metodo: () => store.postDiaphragmaticBreathings(),
+                metodo: () => store.verifyPage(),
                 icon: const Icon(
                   Icons.check,
                   color: Colors.white,

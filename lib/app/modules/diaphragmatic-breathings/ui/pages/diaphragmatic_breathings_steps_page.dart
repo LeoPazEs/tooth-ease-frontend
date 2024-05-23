@@ -19,13 +19,13 @@ class DiaphragmaticBreathingsStepsPage extends StatefulWidget {
 
 class DiaphragmaticBreathingsStepsPageState
     extends State<DiaphragmaticBreathingsStepsPage> {
-  DiaphragmaticBreathingsStepsStore store =
-      Modular.get<DiaphragmaticBreathingsStepsStore>();
+  late DiaphragmaticBreathingsStepsStore store;
 
   @override
   void initState() {
-    store.getDiaphragmaticBreathingsSteps();
+    store = Modular.get<DiaphragmaticBreathingsStepsStore>();
     store.playAudio();
+    store.getDiaphragmaticBreathingsSteps();
     super.initState();
   }
 
@@ -73,5 +73,11 @@ class DiaphragmaticBreathingsStepsPageState
         }
       }),
     );
+  }
+
+  @override
+  void dispose() {
+    store.audioPlayerService.stopAudio();
+    super.dispose();
   }
 }
