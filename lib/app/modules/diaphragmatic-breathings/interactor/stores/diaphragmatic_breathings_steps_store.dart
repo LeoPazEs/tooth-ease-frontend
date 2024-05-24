@@ -36,9 +36,8 @@ abstract class _DiaphragmaticBreathingsStepsStoreBase with Store {
   @action
   emit(DiaphragmaticBreathingsState newState) => state = newState;
 
-  playAudio() async {
-    await audioPlayerService.playAudio(
-        "http://ec2-44-204-193-33.compute-1.amazonaws.com/media/audioTutorialDiaphragmaticBreathing/audio_RoEvZgk.mp3");
+  playAudio(String url) async {
+    await audioPlayerService.playAudio(url);
   }
 
   getDiaphragmaticBreathingsSteps() async {

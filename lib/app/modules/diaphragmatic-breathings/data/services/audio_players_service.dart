@@ -13,11 +13,12 @@ class AudioPlayerService implements IAudioPlayerService {
   @override
   Future playAudio(String url) async {
     try {
-      await player.setVolume(50);
+      await player.setVolume(1.0);
       await player.setAudioSource(AudioSource.uri(Uri.parse(url)));
+      await player.setLoopMode(LoopMode.one);
       await player.play();
     } catch (e) {
-      print("error: $e");
+      print(e);
     }
   }
 

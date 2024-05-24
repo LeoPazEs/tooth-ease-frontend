@@ -10,11 +10,6 @@ import '../../interactor/states/diaphragmatic_breathings_state.dart';
 import '../entities/diaphragmatic_breathings_step_entity.dart';
 
 abstract interface class IDiaphragmaticBreathingsService {
-  Future<DiaphragmaticBreathingsState> getAudioDiaphragmaticBreathings(
-    String kidId,
-    String appointmentId,
-    String diaphragmaticBreathingId,
-  );
   Future<DiaphragmaticBreathingsState> getDiaphragmaticBreathingsAll(
       String kidId, String appointmentId);
   Future<DiaphragmaticBreathingsState> postDiaphragmaticBreathings(
@@ -91,6 +86,7 @@ class DiaphragmaticBreathingsService
   @override
   Future<DiaphragmaticBreathingsState> postDiaphragmaticBreathings(
       String kidId, String appointmentId) async {
+    print(DateTime.now());
     try {
       var response = await dio.post(
         '$apiUrl/accounts/me/kids/$kidId/appointments/$appointmentId/diaphragmatic-breathing/',
@@ -155,31 +151,6 @@ class DiaphragmaticBreathingsService
       if (e is DioError) {
         debugPrint(e.response!.data.toString());
       }
-      return const ErrorExceptionDiaphragmaticBreathingsState();
-    }
-  }
-
-  @override
-  Future<DiaphragmaticBreathingsState> getAudioDiaphragmaticBreathings(
-    String kidId,
-    String appointmentId,
-    String diaphragmaticBreathingId,
-  ) async {
-    try {
-      var response = await dio.get(
-          '$apiUrl/accounts/me/kids/$kidId/appointments/$appointmentId/diaphragmatic-breathing/$diaphragmaticBreathingId/');
-      List<DiaphragmaticBreathingsStepEntity> diaphragmaticBreathings =
-          (response.data as List)
-              .map((json) => DiaphragmaticBreathingsStepAdapters.fromJson(json))
-              .toList();
-      if (response.statusCode == 200) {
-        return SuccessDiaphragmaticBreathingsStepState(
-          diaphragmaticBreathings: diaphragmaticBreathings,
-        );
-      } else {
-        return const ErrorExceptionDiaphragmaticBreathingsState();
-      }
-    } catch (e) {
       return const ErrorExceptionDiaphragmaticBreathingsState();
     }
   }

@@ -24,7 +24,6 @@ class DiaphragmaticBreathingsStepsPageState
   @override
   void initState() {
     store = Modular.get<DiaphragmaticBreathingsStepsStore>();
-    store.playAudio();
     store.getDiaphragmaticBreathingsSteps();
     super.initState();
   }
@@ -40,6 +39,7 @@ class DiaphragmaticBreathingsStepsPageState
                 itemCount: store.diaphragmaticBreathings.length,
                 controller: store.pageController,
                 itemBuilder: (BuildContext context, int index) {
+                  store.playAudio(store.diaphragmaticBreathings[index].audio);
                   return ImageStep(
                     image: store.diaphragmaticBreathings[index].image,
                   );

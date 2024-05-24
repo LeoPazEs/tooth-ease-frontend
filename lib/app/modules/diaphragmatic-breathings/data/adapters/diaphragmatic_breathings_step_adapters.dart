@@ -7,6 +7,7 @@ class DiaphragmaticBreathingsStepAdapters {
       DiaphragmaticBreathingsStepEntity(
         step: json['step'].toString(),
         id: json['íd'].toString(),
+        audio: json['audio'],
         image: json['image'],
       );
 }
