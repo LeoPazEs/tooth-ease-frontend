@@ -21,10 +21,10 @@ class AppointmentWidgetState extends State<AppointmentWidget> {
         return ListView.builder(
           shrinkWrap: true,
           padding: const EdgeInsets.all(8),
-          itemCount: store.filteredAppointments.length,
+          itemCount: store.appointments.length,
           itemBuilder: (BuildContext context, int index) =>
               AppointmentsCardWidget(
-            appointments: store.filteredAppointments[index],
+            appointments: store.appointments[index],
             store: store,
           ),
         );

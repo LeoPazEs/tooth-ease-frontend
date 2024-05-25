@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tooth_ease_frontend/app/modules/appointments/appointments_module.dart';
+import 'package:tooth_ease_frontend/app/modules/diaphragmatic-breathings/diaphragmaticBreathings_module.dart';
 import 'package:tooth_ease_frontend/app/modules/login/guard/auth_guard.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/interceptor.dart';
 import 'package:tooth_ease_frontend/app/modules/shared/token_auth.dart';
@@ -50,5 +51,7 @@ class AppModule extends Module {
     ModuleRoute('/home/', module: KidsModule()),
     ModuleRoute('/appointments/', module: AppointmentsModule()),
     ModuleRoute('/profile/', module: ProfileModule()),
+    ModuleRoute('/diaphragmatic_Breathings/',
+        module: DiaphragmaticBreathingsModule()),
   ];
 }

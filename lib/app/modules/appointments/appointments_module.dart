@@ -11,13 +11,13 @@ class AppointmentsModule extends Module {
   final List<Bind> binds = [
     Bind.lazySingleton((i) => AppointmentsService(dio: i.get<Dio>())),
     Bind.lazySingleton((i) => AppointmentsStore(
-        appointmentsService: i.get<AppointmentsService>(),
-        storage: i.get<SecureStorageService>(),
-        store: i.get<AppointmentsStore>())),
+          appointmentsService: i.get<AppointmentsService>(),
+          storage: i.get<SecureStorageService>(),
+        )),
   ];
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/', child: (_, args) => AppointmentsPage()),
+    ChildRoute('/', child: (_, args) => const AppointmentsPage()),
   ];
 }
