@@ -34,6 +34,7 @@ class AppointmentsPageState extends State<AppointmentsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationWidget(store: store),
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
