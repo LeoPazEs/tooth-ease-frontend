@@ -29,7 +29,7 @@ class LoginWidgetState extends State<LoginWidget> {
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.03),
               child: GestureDetector(
-                onTap: () => Modular.to.navigate("/register"),
+                onTap: () => Modular.to.navigate("/login/register"),
                 child: RichText(
                   text: const TextSpan(
                     style: TextStyle(color: Colors.blue),
